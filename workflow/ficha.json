@@ -1,0 +1,17 @@
+{
+  "ficha": "entregas/ficha_abyss.jpg",
+  "fotos": {
+    "hero": "entregas/feed/trabajo_hombro_real_retouched.jpg",
+    "views": [
+      "entregas/feed/cristo_retouched.jpg",
+      "entregas/feed/trabajo_lobo_luna_retouched.jpg",
+      "entregas/feed/payaso_retouched.jpg",
+      "entregas/feed/plate_p08_vitrina_estudio_retouched.jpg"
+    ],
+    "macros": [
+      "entregas/feed/proceso_hombro_retouched.jpg",
+      "entregas/piel/plate_p07_septum_titanio_retouched.jpg",
+      "entregas/piel/plate_p06_helix_titanio_retouched.jpg"
+    ]
+  }
+}

@@ -1,0 +1,341 @@
+{
+  "preset": {
+    "name": "piel",
+    "exposure": 0.0,
+    "target_mid": 0.42,
+    "key_tone": 0.74,
+    "ev_limit": 0.3,
+    "contrast": 0.07,
+    "black_density": 0.05,
+    "clarity": 0.09,
+    "sculpture": 0.2,
+    "dodge": 0.05,
+    "burn": 0.08,
+    "bloom": 0.06,
+    "bloom_radius": 0.008,
+    "bloom_warmth": 0.2,
+    "micro_contrast": 0.06,
+    "vibrance": 0.04,
+    "saturation": 0.97,
+    "wb_strength": 0.55,
+    "wb_clip": 0.18,
+    "shadow_tint": [
+      0.06,
+      0.09,
+      0.14
+    ],
+    "highlight_tint": [
+      0.14,
+      0.11,
+      0.06
+    ],
+    "split_amount": 0.04,
+    "grain": 0.0,
+    "vignette": 0.14,
+    "sharpness": 0.18,
+    "key_light": [
+      0.34,
+      0.24
+    ],
+    "key_strength": 0.05,
+    "upscale": 1
+  },
+  "images": [
+    {
+      "in": "incoming/piel/helice.jpg",
+      "out": "entregas/piel/helice_retouched.jpg",
+      "source_size": [
+        900,
+        1600
+      ],
+      "output_size": [
+        900,
+        1600
+      ],
+      "exposure_ev": 0.052,
+      "meter_in": {
+        "key_tone": 0.6931084394454956,
+        "mid_tone": 0.48427700996398926,
+        "subject_ratio": 0.6761583333333333,
+        "bg_level": 0.0636560469865799
+      },
+      "preset": "piel",
+      "analysis_in": {
+        "size": [
+          900,
+          1600
+        ],
+        "luma_p01": 0.05128392204642296,
+        "luma_p50": 0.3408258855342865,
+        "luma_p99": 0.7680591940879822,
+        "shadow_clip": 0.0,
+        "highlight_clip": 0.0,
+        "cast_rgb_median": [
+          0.5137,
+          0.302,
+          0.2353
+        ],
+        "cast_ratio": [
+          1.701,
+          0.779
+        ]
+      },
+      "analysis_out": {
+        "size": [
+          900,
+          1600
+        ],
+        "luma_p01": 0.0044721569865942,
+        "luma_p50": 0.31302353739738464,
+        "luma_p99": 0.882094144821167,
+        "shadow_clip": 0.03884027777777778,
+        "highlight_clip": 0.0,
+        "cast_rgb_median": [
+          0.451,
+          0.2784,
+          0.2196
+        ],
+        "cast_ratio": [
+          1.62,
+          0.789
+        ]
+      },
+      "logo": {
+        "logo": "assets/brand/abyss_knockout.png",
+        "pos": "bl",
+        "size_px": 153,
+        "square": true,
+        "ref": "short-side",
+        "monochrome": false,
+        "tint": "original",
+        "blend": "screen",
+        "bg_luma": 0.03,
+        "bg_noise": 0.0344,
+        "scrim": false,
+        "halo": true
+      }
+    },
+    {
+      "in": "incoming/piel/plate_p06_helix_titanio.jpg",
+      "out": "entregas/piel/plate_p06_helix_titanio_retouched.jpg",
+      "source_size": [
+        1296,
+        2304
+      ],
+      "output_size": [
+        1296,
+        2304
+      ],
+      "exposure_ev": 0.009,
+      "meter_in": {
+        "key_tone": 0.7312760353088379,
+        "mid_tone": 0.4960189759731293,
+        "subject_ratio": 0.6938041195130316,
+        "bg_level": 0.03639119118452072
+      },
+      "preset": "piel",
+      "analysis_in": {
+        "size": [
+          1296,
+          2304
+        ],
+        "luma_p01": 0.02021019533276558,
+        "luma_p50": 0.3442431688308716,
+        "luma_p99": 0.8390265107154846,
+        "shadow_clip": 0.006462526256001372,
+        "highlight_clip": 0.00026222511574074077,
+        "cast_rgb_median": [
+          0.5098,
+          0.3059,
+          0.2392
+        ],
+        "cast_ratio": [
+          1.667,
+          0.782
+        ]
+      },
+      "analysis_out": {
+        "size": [
+          1296,
+          2304
+        ],
+        "luma_p01": 0.0,
+        "luma_p50": 0.3085058927536011,
+        "luma_p99": 0.9001380801200867,
+        "shadow_clip": 0.09693722404406721,
+        "highlight_clip": 9.04224537037037e-06,
+        "cast_rgb_median": [
+          0.4392,
+          0.2745,
+          0.2196
+        ],
+        "cast_ratio": [
+          1.6,
+          0.8
+        ]
+      },
+      "logo": {
+        "logo": "assets/brand/abyss_knockout.png",
+        "pos": "bl",
+        "size_px": 220,
+        "square": true,
+        "ref": "short-side",
+        "monochrome": false,
+        "tint": "original",
+        "blend": "screen",
+        "bg_luma": 0.016,
+        "bg_noise": 0.0424,
+        "scrim": false,
+        "halo": true
+      }
+    },
+    {
+      "in": "incoming/piel/plate_p07_septum_titanio.jpg",
+      "out": "entregas/piel/plate_p07_septum_titanio_retouched.jpg",
+      "source_size": [
+        1296,
+        2304
+      ],
+      "output_size": [
+        1296,
+        2304
+      ],
+      "exposure_ev": 0.127,
+      "meter_in": {
+        "key_tone": 0.6305177807807922,
+        "mid_tone": 0.4028100371360779,
+        "subject_ratio": 0.8780924479166666,
+        "bg_level": 0.13269485533237457
+      },
+      "preset": "piel",
+      "analysis_in": {
+        "size": [
+          1296,
+          2304
+        ],
+        "luma_p01": 0.028320785611867905,
+        "luma_p50": 0.3783011734485626,
+        "luma_p99": 0.7691302299499512,
+        "shadow_clip": 0.0027950585133744857,
+        "highlight_clip": 0.0008901588220164609,
+        "cast_rgb_median": [
+          0.5569,
+          0.3373,
+          0.2431
+        ],
+        "cast_ratio": [
+          1.651,
+          0.721
+        ]
+      },
+      "analysis_out": {
+        "size": [
+          1296,
+          2304
+        ],
+        "luma_p01": 0.0,
+        "luma_p50": 0.3732784390449524,
+        "luma_p99": 0.8911780118942261,
+        "shadow_clip": 0.022719143840020575,
+        "highlight_clip": 3.851326731824417e-05,
+        "cast_rgb_median": [
+          0.5255,
+          0.3412,
+          0.2549
+        ],
+        "cast_ratio": [
+          1.54,
+          0.747
+        ]
+      },
+      "logo": {
+        "logo": "assets/brand/abyss_knockout.png",
+        "pos": "br",
+        "size_px": 220,
+        "square": true,
+        "ref": "short-side",
+        "monochrome": false,
+        "tint": "original",
+        "blend": "screen",
+        "bg_luma": 0.207,
+        "bg_noise": 0.0445,
+        "scrim": false,
+        "halo": true
+      }
+    },
+    {
+      "in": "incoming/piel/septum.jpg",
+      "out": "entregas/piel/septum_retouched.jpg",
+      "source_size": [
+        900,
+        1970
+      ],
+      "output_size": [
+        900,
+        1970
+      ],
+      "exposure_ev": 0.15,
+      "meter_in": {
+        "key_tone": 0.6125127673149109,
+        "mid_tone": 0.38886430859565735,
+        "subject_ratio": 0.8575358150028201,
+        "bg_level": 0.14269845187664032
+      },
+      "preset": "piel",
+      "analysis_in": {
+        "size": [
+          900,
+          1970
+        ],
+        "luma_p01": 0.06697019934654236,
+        "luma_p50": 0.3597945272922516,
+        "luma_p99": 0.6999780535697937,
+        "shadow_clip": 0.0,
+        "highlight_clip": 7.896221094190638e-06,
+        "cast_rgb_median": [
+          0.5373,
+          0.3216,
+          0.2275
+        ],
+        "cast_ratio": [
+          1.671,
+          0.707
+        ]
+      },
+      "analysis_out": {
+        "size": [
+          900,
+          1970
+        ],
+        "luma_p01": 0.029705099761486053,
+        "luma_p50": 0.3573090136051178,
+        "luma_p99": 0.8408447504043579,
+        "shadow_clip": 0.00541229554427524,
+        "highlight_clip": 1.3536379018612521e-05,
+        "cast_rgb_median": [
+          0.5098,
+          0.3216,
+          0.2392
+        ],
+        "cast_ratio": [
+          1.585,
+          0.744
+        ]
+      },
+      "logo": {
+        "logo": "assets/brand/abyss_knockout.png",
+        "pos": "br",
+        "size_px": 153,
+        "square": true,
+        "ref": "short-side",
+        "monochrome": false,
+        "tint": "original",
+        "blend": "screen",
+        "bg_luma": 0.165,
+        "bg_noise": 0.0285,
+        "scrim": false,
+        "halo": true
+      }
+    }
+  ]
+}

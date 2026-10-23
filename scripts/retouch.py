@@ -65,6 +65,8 @@ class Preset:
     micro_contrast: float = 0.22
     vibrance: float = 0.12
     saturation: float = 0.98     # multiplicador (1.0 = neutro)
+    wb_strength: float = 0.22       # fuerza del balance de blancos (0..1)
+    wb_clip: float = 0.08           # desvio maximo de ganancia por canal
     shadow_tint: tuple = (0.06, 0.09, 0.14)   # azul acero en sombras
     highlight_tint: tuple = (0.14, 0.11, 0.06)  # laton calido en luces
     split_amount: float = 0.16
@@ -103,6 +105,28 @@ PRESETS = {
     ),
 }
 PRESETS["studio"] = PRESETS["editorial"]
+
+# --- Material real del estudio: fotos de dia, ya editadas, 900-1300 px ---
+# El look oscuro NO se logra hundiendo estas fotos: se protege el detalle del tatuaje y
+# se agrega profundidad sin empastar. Menos claridad, menos enfoque, mas aire en sombras.
+PRESETS["feed"] = Preset(
+    name="feed", target_mid=0.36, key_tone=0.66, ev_limit=0.35,
+    wb_strength=0.45, wb_clip=0.16,
+    contrast=0.13, black_density=0.14, clarity=0.15, sculpture=0.32,
+    dodge=0.08, burn=0.18, bloom=0.06, bloom_radius=0.009, bloom_warmth=0.14,
+    micro_contrast=0.10, vibrance=0.08, saturation=0.98, split_amount=0.08,
+    grain=0.006, vignette=0.24, sharpness=0.24, key_strength=0.08,
+)
+
+# Retratos/piezas de piel y piercing sobre fondo claro: casi revelado, sin dramatismo
+PRESETS["piel"] = Preset(
+    name="piel", target_mid=0.42, key_tone=0.74, ev_limit=0.30,
+    wb_strength=0.55, wb_clip=0.18,
+    contrast=0.07, black_density=0.05, clarity=0.09, sculpture=0.20,
+    dodge=0.05, burn=0.08, bloom=0.06, bloom_radius=0.008, micro_contrast=0.06,
+    vibrance=0.04, saturation=0.97, split_amount=0.04, grain=0.0,
+    vignette=0.14, sharpness=0.18, key_strength=0.05,
+)
 
 
 # ----------------------------------------------------------------------------- utils
@@ -242,7 +266,7 @@ def highlight_recovery(rgb: np.ndarray, thresh: float = 0.88) -> np.ndarray:
     return np.clip(rgb * scale, 0, 1)
 
 
-def white_balance(rgb: np.ndarray, strength: float = 0.65) -> np.ndarray:
+def white_balance(rgb: np.ndarray, strength: float = 0.65, clip: float = 0.08) -> np.ndarray:
     """Gray-world robusto: solo sobre tonos medios, evita que un fondo negro lo rompa."""
     L = _luma(rgb)
     m = (L > 0.18) & (L < 0.85)
@@ -253,8 +277,18 @@ def white_balance(rgb: np.ndarray, strength: float = 0.65) -> np.ndarray:
     med = np.median(rgb[m], axis=0)
     target = med.mean()
     gains = target / np.maximum(med, 1e-4)
-    gains = 1.0 + (gains - 1.0) * strength
-    gains = np.clip(gains, 0.94, 1.08)      # nunca enfriar/calentar mas de ~8%
+
+    # Una piel calida NO es un error de balance: si la escena ya es calida (R/B alto),
+    # corregirla "a neutro" grisea el tono de piel. Se corrige el viraje verde/magenta
+    # siempre, y el eje calido/frio solo cuando es realmente fuerte (luz tungsteno).
+    warmth = float(med[0] / max(med[2], 1e-6))
+    eff = strength
+    if warmth > 1.15:
+        eff = strength * 0.30          # ya es calida: no la apagues
+    elif warmth > 1.05:
+        eff = strength * 0.55
+    gains = 1.0 + (gains - 1.0) * eff
+    gains = np.clip(gains, 1.0 - clip, 1.0 + clip)  # tope de correccion por canal
     return np.clip(rgb * gains[None, None, :], 0, 4)
 
 
@@ -353,6 +387,23 @@ def dodge_burn(rgb: np.ndarray, preset: Preset, seed: int = 7) -> np.ndarray:
     return np.clip(rgb * ratio[..., None], 0, 1)
 
 
+def tame_speculars(rgb: np.ndarray, strength: float = 0.55) -> np.ndarray:
+    """Baja especulares planos que llegan ya quemados del archivo original.
+
+    Cuando una zona supera ~0.93 sin variacion local, no hay informacion que recuperar:
+    no se puede 'desquemar', pero si devolverle densidad para que no sea un parche blanco.
+    Se detecta por luminancia alta + gradiente bajo (superficie plana) y se atenua.
+    """
+    L = _luma(rgb)
+    flat = 1.0 - _smoothstep(0.004, 0.030, np.abs(_gauss(L, 2.0) - L))
+    hot = _smoothstep(0.88, 1.0, L) * flat
+    if hot.max() < 0.02:
+        return rgb
+    target = 0.90
+    newL = L + (np.minimum(L, target) - L) * hot * strength
+    return _apply_luma(rgb, np.clip(newL, 0, 1))
+
+
 def bloom(rgb: np.ndarray, preset: Preset) -> np.ndarray:
     """Brillo optico: extrae altas luces con rodilla suave, las difumina y las suma (screen)."""
     if preset.bloom <= 0:
@@ -386,6 +437,7 @@ def micro_detail(rgb: np.ndarray, amount: float) -> np.ndarray:
     L = _luma(rgb)
     low = _gauss(L, max(1.6, min(rgb.shape[:2]) * 0.0035))
     keep = 0.10 + 0.90 * _smoothstep(0.10, 0.55, L)   # no levantar ruido en el fondo negro
+    amount *= (0.55 + 0.45 * _res_scale(rgb.shape))
     return _apply_luma(rgb, np.clip(L + (L - low) * amount * 1.1 * keep, 0, 1))
 
 
@@ -433,11 +485,12 @@ def grain_and_vignette(rgb: np.ndarray, preset: Preset, seed: int = 7) -> np.nda
 
     # grano: gaussiano, mas visible en medios tonos, casi nulo en negros puros
     if preset.grain > 0:
+        grain_amt = preset.grain * (0.55 + 0.45 * _res_scale(rgb.shape))
         rng = np.random.default_rng(seed)
         n = rng.normal(0, 1, (h, w)).astype(np.float32)
         n = _gauss(np.stack([n] * 3, -1), 0.8)[..., 0]
         wg = _smoothstep(0.02, 0.30, L) * (1 - 0.65 * _smoothstep(0.75, 1.0, L))
-        out = out + n[..., None] * preset.grain * wg[..., None]
+        out = out + n[..., None] * grain_amt * wg[..., None]
     return np.clip(out, 0, 1)
 
 
@@ -449,9 +502,19 @@ def highlight_rolloff(rgb: np.ndarray, start: float = 0.80, strength: float = 0.
     return _apply_luma(rgb, np.clip(L * head, 0, 1))
 
 
+def _res_scale(shape) -> float:
+    """Factor de escala por resolucion.
+
+    A 900 px el enfoque y el grano se ven el doble de duros que a 2400 px porque ocupan
+    el mismo numero de pixeles. Sin esto, el material real (900x1200) queda 'crujiente'.
+    """
+    return float(np.clip(min(shape[:2]) / 1500.0, 0.45, 1.25))
+
+
 def sharpening(rgb: np.ndarray, amount: float) -> np.ndarray:
     if amount <= 0:
         return rgb
+    amount *= _res_scale(rgb.shape)
     L = _luma(rgb)
     blur = _gauss(L, 1.0)
     detail = L - blur
@@ -523,14 +586,27 @@ def composite_logo(rgb: np.ndarray, logo_path: str, pos: str = "auto",
     # 0) posicion automatica: la esquina mas 'tranquila' (oscura y pareja) para que la
     #    marca nunca caiga sobre el tatuaje ni sobre una zona de alto detalle
     if pos == "auto":
-        best, best_score = "br", 1e9
+        # No alcanza con buscar la esquina mas oscura: la marca tiene que CONTRASTAR y
+        # el fondo tiene que ser parejo. Se evalua el contraste alcanzable con tinta
+        # clara vs oscura, y se penaliza el ruido (una marca sobre textura se pierde).
+        best, best_score = "br", -1e9
         for cand, (cx, cy) in {"br": (w - mx - lw, h - my - lh), "bl": (mx, h - my - lh),
                                "tr": (w - mx - lw, my), "tl": (mx, my)}.items():
             p_ = rgb[max(0, cy):cy + lh, max(0, cx):cx + lw]
             if p_.size == 0:
                 continue
-            score = float(_luma(p_).mean()) + 1.6 * float(np.std(_luma(p_)))
-            if score < best_score - 1e-4:
+            l_ = _luma(p_)
+            bg = float(l_.mean())
+            noise = float(l_.std())
+            contrast = max(abs(bg - 0.95), abs(bg - 0.06))   # crema vs tinta
+            # entre 0.35 y 0.75 ninguna tinta contrasta: se descarta la esquina
+            midtone = 1.0 - _smoothstep(0.0, 0.10, abs(bg - 0.55)) * 0.0
+            penalty = 1.4 if 0.32 <= bg <= 0.88 else 0.0
+            score = contrast - 1.8 * noise - penalty
+            # borde inferior suele estar fuera del sujeto: pequeño premio
+            if cand in ("bl", "br"):
+                score += 0.02
+            if score > best_score + 1e-4:
                 best, best_score = cand, score
         pos = best
 
@@ -545,11 +621,23 @@ def composite_logo(rgb: np.ndarray, logo_path: str, pos: str = "auto",
     patch = rgb[max(0, py):py + lh, max(0, px):px + lw]
     bg_l = float(_luma(patch).mean()) if patch.size else 0.1
 
+    # 1b) variante segun el fondo: la insignia crema desaparece sobre piel o paredes claras.
+    #     Se busca la version de lineas oscuras del mismo arte (mismo diseno, otra tinta).
+    if bg_l > 0.45 and "_ink" not in logo_path:
+        for suf in ("_knockout.png", "_color.png", "_line.png", "_original.png"):
+            alt = logo_path.replace(suf, "_ink.png")
+            if os.path.exists(alt):
+                logo_path = alt
+                lg = _fit_logo(Image.open(alt).convert("RGBA"), tw)
+                lw, lh = lg.size
+                break
+
     # 2) color: una insignia a color se respeta tal cual; solo se recolorea si es monotinta
     mono = _is_monochrome(lg)
     do_tint = (tint == "always") or (tint == "auto" and mono)
     if do_tint:
-        ink = Image.new("RGBA", (lw, lh), (245, 242, 235, 255) if bg_l < 0.55
+        use_ivory = abs(bg_l - 0.95) >= abs(bg_l - 0.06)
+        ink = Image.new("RGBA", (lw, lh), (245, 242, 235, 255) if use_ivory
                         else (16, 16, 16, 255))
         tinted = Image.composite(ink, Image.new("RGBA", (lw, lh), (0, 0, 0, 0)), lg.split()[-1])
     else:
@@ -561,9 +649,9 @@ def composite_logo(rgb: np.ndarray, logo_path: str, pos: str = "auto",
     #    (las lineas claras sobreviven) sin 'caja' visible; 'normal' deja la insignia solida
     mode = blend
     if mode == "auto":
-        # screen solo para marcas monotinta sin disco propio (lineas sobre transparente):
-        # en una insignia a color, screen deja pasar la textura del fondo y ensucia el sello
-        mode = "screen" if (not do_tint) else "normal"
+        # screen SOLO sobre fondo oscuro: sobre claro lava las lineas crema. En una
+        # insignia a color, ademas, deja pasar la textura del fondo y ensucia el sello.
+        mode = "screen" if (not do_tint and bg_l < 0.30) else "normal"
     if mode == "screen":
         canvas0 = np.asarray(canvas.convert("RGB"), dtype=np.float32) / 255.0
         y0, x0 = max(0, py), max(0, px)
@@ -584,7 +672,9 @@ def composite_logo(rgb: np.ndarray, logo_path: str, pos: str = "auto",
     # 4) scrim: solo cuando el fondo bajo la marca es sucio (si es negro limpio, no se usa)
     if scrim:
         bg_noise = float(np.std(_luma(patch))) if patch.size else 0.0
-        scrim = bg_noise > 0.045
+        # scrim si el fondo es sucio O si no hay contraste suficiente para leer la marca
+        contrast_ok = max(abs(bg_l - 0.95), abs(bg_l - 0.06)) >= 0.52
+        scrim = (bg_noise > 0.045) or (not contrast_ok)
     if scrim:
         # gradiente radial analitico (sin escalones) + dither para evitar banding en JPEG
         yy, xx = np.mgrid[0:h, 0:w].astype(np.float32)
@@ -649,7 +739,7 @@ def retouch(path: str, out_path: str, preset: Preset, logo: str | None = None,
     stats_in = analyze(rgb)
 
     # 02 balance de blancos + exposicion medida sobre el sujeto
-    rgb = white_balance(rgb, 0.22)
+    rgb = white_balance(rgb, preset.wb_strength, preset.wb_clip)
     rgb = highlight_recovery(rgb)          # protege el techo antes de exponer
     meter = meter_subject(rgb)  # medicion sobre sujeto
     ev = float(np.log2(preset.key_tone / max(meter["key_tone"], 1e-3))) * 0.55
@@ -662,6 +752,7 @@ def retouch(path: str, out_path: str, preset: Preset, logo: str | None = None,
     rgb = sculpture_3d(rgb, preset.sculpture)
     rgb = dodge_burn(rgb, preset, seed)
     rgb = micro_detail(rgb, preset.micro_contrast)
+    rgb = tame_speculars(rgb)
     rgb = bloom(rgb, preset)
     rgb = grade(rgb, preset)
     rgb = highlight_rolloff(rgb)
