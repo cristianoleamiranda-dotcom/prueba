@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 300" width="1000" height="300">
+  <!-- Lockup: marca + nombre + subtitulo. Cambia currentColor para recolorear. -->
+  <g fill="none" stroke="currentColor" stroke-width="4">
+    <circle cx="150" cy="150" r="78"/>
+    <polygon points="150,109 191,150 150,191 109,150"/>
+    <line x1="150" y1="40" x2="150" y2="260"/>
+  </g>
+  <polygon points="150,16 135,40 165,40" fill="currentColor"/>
+  <line x1="262" y1="78" x2="262" y2="222" stroke="currentColor" stroke-opacity="0.45" stroke-width="2"/>
+  <g fill="currentColor" font-family="DejaVu Serif, Georgia, serif" font-size="58" letter-spacing="13">
+    <text x="286" y="142">ESTUDIO TINTA</text>
+  </g>
+  <line x1="286" y1="170" x2="906" y2="170" stroke="currentColor" stroke-opacity="0.5" stroke-width="2"/>
+  <g fill="currentColor" font-family="DejaVu Sans, Arial, sans-serif" font-size="26" letter-spacing="17">
+    <text x="286" y="216">SANTIAGO · CHILE</text>
+  </g>
+</svg>
