@@ -24,9 +24,10 @@ Instalacion
 make install          # numpy, scipy, pillow, pillow-heif (HEIC de iPhone)
 make brand            # rearma el kit de marca desde abyss_source.png
 Flujo con las fotos reales
-make fetch                              # descarga links.txt -> incoming/
-make feed                               # 4:5 1080x1350, preset editorial
-make story                              # 9:16 1080x1920, preset motion
+make fetch     # descarga links.txt -> incoming/ (requiere red abierta a tmpfiles.org)
+make feed      # 4:5 1080x1350, preset editorial
+make story     # 9:16 1080x1920, preset motion
+make all       # fetch + feed + story + tabla resumen, de una
 O manual, con control total:
 
 # una sola foto: 1080x1350, insignia en la esquina mas tranquila
