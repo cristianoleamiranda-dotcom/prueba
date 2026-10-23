@@ -1,16 +1,9 @@
-# ABYSS — retoque editorial de estudio
-
-Sistema de retoque fotografico profesional en **clave baja editorial** (negros densos,
-piel calida, relieve 3D, brillos con halation, profundidad) + integracion de la insignia
-del estudio sin texto, para fotos de tatuajes y piercing sobre fondo oscuro.
+ABYSS — retoque editorial de estudio
+Sistema de retoque fotografico profesional en clave baja editorial (negros densos, piel calida, relieve 3D, brillos con halation, profundidad) + integracion de la insignia del estudio sin texto, para fotos de tatuajes y piercing sobre fondo oscuro.
 
 Todo corre local, sin servicios de nube: numpy + scipy + Pillow.
 
----
-
-## Que hay aca
-
-```
+Que hay aca
 skills/dark-editorial-retouch/
 ├── SKILL.md                      # la skill (formato Anthropic Agent Skills)
 └── references/
@@ -27,26 +20,15 @@ assets/brand/                     # insignia ABYSS en 5 variantes + tamanos de a
 examples/demo/                    # pruebas editoriales (con marca)
 examples/demo_motion/             # pruebas con preset motion (marca en oro)
 links.txt                         # los 12 enlaces entregados
-```
-
-## Instalacion
-
-```bash
+Instalacion
 make install          # numpy, scipy, pillow, pillow-heif (HEIC de iPhone)
 make brand            # rearma el kit de marca desde abyss_source.png
-```
-
-## Flujo con las fotos reales
-
-```bash
+Flujo con las fotos reales
 make fetch                              # descarga links.txt -> incoming/
 make feed                               # 4:5 1080x1350, preset editorial
 make story                              # 9:16 1080x1920, preset motion
-```
-
 O manual, con control total:
 
-```bash
 # una sola foto: 1080x1350, insignia en la esquina mas tranquila
 python3 scripts/retouch.py incoming/foto.heif --out out/foto.jpg \
         --crop 1080x1350 --preset editorial \
@@ -57,76 +39,47 @@ python3 scripts/retouch.py incoming --out out \
         --preset motion --crop 1080x1350 \
         --logo assets/brand/abyss_knockout.png --logo-pos auto --logo-width 0.20 \
         --sheet out/_contacto.jpg --report out/_reporte.json
-```
+Presets
+Preset	Uso	Caracter
+editorial	entrega principal	negro profundo, piel calida, relieve marcado
+motion	stories / reels still	mas contraste, bloom y viñeteo, grano fino
+clean	muestra a cliente	natural, sin grano, brillos contenidos
+noir	blanco y negro	separacion tonal, grano 0.034
+Perillas que importan
+--preset define el look base. Para afinar una sesion se edita PRESETS en scripts/retouch.py:
 
-### Presets
+sculpture — cuanto volumen 3D (el parametro que mas cambia el resultado)
+black_density — que tan negro queda el fondo
+bloom / bloom_radius — derrame de luz en los bordes iluminados
+dodge / burn / key_light — direccion e intensidad de la luz clave
+clarity / micro_contrast — textura fina (cuidado: alto = plastico)
+grain — textura filmica (evita el aspecto render)
+logo-width, --logo-pos — tamano (sobre el lado corto) y esquina de la insignia (auto = esquina mas oscura y pareja del encuadre)
+Salida
+JPEG q95, 4:2:2, sRGB. --png para PNG.
+El original nunca se sobreescribe.
+--report json registra por imagen: EV aplicado, medicion de entrada/salida (p01/p50/p99, clipping, cast), decision de marca (tinta, scrim, halo, ancho en px). Sirve para auditar la serie y repetir la entrega.
+Checklist antes de publicar
+Fondo negro de verdad (p5 < 0.04) y sin tinte.
+Ninguna zona plana quemada (p99 < 1.0 salvo especulares puntuales).
+Piel con poro al 100% de zoom.
+El relieve se logro con luz, no con contraste global.
+Insignia legible: "ABYSS / TATTOO Y PIERCING" se lee al 100%, misma esquina en la serie.
+Cero texto en la imagen.
+Detalle de cada punto en skills/dark-editorial-retouch/SKILL.md.
 
-| Preset | Uso | Caracter |
-|---|---|---|
-| `editorial` | entrega principal | negro profundo, piel calida, relieve marcado |
-| `motion` | stories / reels still | mas contraste, bloom y viñeteo, grano fino |
-| `clean` | muestra a cliente | natural, sin grano, brillos contenidos |
-| `noir` | blanco y negro | separacion tonal, grano 0.034 |
+Marca
+La insignia del cliente vive en assets/brand/abyss_source.png y se convierte en kit con make brand:
 
-### Perillas que importan
+Archivo	Uso
+abyss_knockout.png	principal: se quita la placa marron y se conservan crema y verde
+abyss_line.png	monotinta crema, cuando la foto tiene zonas medias
+abyss_color.png	insignia intacta (negro absoluto, piezas graficas)
+abyss_ink.png	lineas oscuras para papel / fondos claros
+abyss_512 / 256 / 128.png	avatar, favicon, sello
+El motor respeta la identidad: no recolorea la insignia a color, mide el tamano sobre el lado corto del encuadre (una insignia cuadrada escalada por el ancho se desproporciona entre 4:5 y 9:16), elige la esquina mas tranquila con --logo-pos auto y solo agrega scrim si ese parche tiene ruido. Fundamento completo en skills/dark-editorial-retouch/references/logo-integration.md.
 
-`--preset` define el look base. Para afinar una sesion se edita `PRESETS` en
-`scripts/retouch.py`:
+Pruebas incluidas
+examples/demo/ (4:5, editorial) y examples/demo_motion/ (9:16, motion) son resultados reales del motor —insignia incluida— sobre dos bases de prueba, para ver el salto antes/despues sin depender de los links externos. examples/antes_despues.jpg es la comparativa lado a lado.
 
-- `sculpture` — cuanto volumen 3D (el parametro que mas cambia el resultado)
-- `black_density` — que tan negro queda el fondo
-- `bloom` / `bloom_radius` — derrame de luz en los bordes iluminados
-- `dodge` / `burn` / `key_light` — direccion e intensidad de la luz clave
-- `clarity` / `micro_contrast` — textura fina (cuidado: alto = plastico)
-- `grain` — textura filmica (evita el aspecto render)
-- `logo-width`, `--logo-pos` — tamano (sobre el lado corto) y esquina de la insignia
-  (`auto` = esquina mas oscura y pareja del encuadre)
-
-## Salida
-
-- JPEG q95, 4:2:2, sRGB. `--png` para PNG.
-- El original nunca se sobreescribe.
-- `--report json` registra por imagen: EV aplicado, medicion de entrada/salida
-  (p01/p50/p99, clipping, cast), decision de marca (tinta, scrim, halo, ancho en px).
-  Sirve para auditar la serie y repetir la entrega.
-
-## Checklist antes de publicar
-
-1. Fondo negro de verdad (p5 < 0.04) y sin tinte.
-2. Ninguna zona plana quemada (p99 < 1.0 salvo especulares puntuales).
-3. Piel con poro al 100% de zoom.
-4. El relieve se logro con luz, no con contraste global.
-5. Insignia legible: "ABYSS / TATTOO Y PIERCING" se lee al 100%, misma esquina en la serie.
-6. Cero texto en la imagen.
-
-Detalle de cada punto en `skills/dark-editorial-retouch/SKILL.md`.
-
-## Marca
-
-La insignia del cliente vive en `assets/brand/abyss_source.png` y se convierte en kit con
-`make brand`:
-
-| Archivo | Uso |
-|---|---|
-| `abyss_knockout.png` | **principal**: se quita la placa marron y se conservan crema y verde |
-| `abyss_line.png` | monotinta crema, cuando la foto tiene zonas medias |
-| `abyss_color.png` | insignia intacta (negro absoluto, piezas graficas) |
-| `abyss_ink.png` | lineas oscuras para papel / fondos claros |
-| `abyss_512 / 256 / 128.png` | avatar, favicon, sello |
-
-El motor respeta la identidad: **no recolorea la insignia a color**, mide el tamano sobre
-el **lado corto** del encuadre (una insignia cuadrada escalada por el ancho se desproporciona
-entre 4:5 y 9:16), elige la **esquina mas tranquila** con `--logo-pos auto` y solo agrega
-scrim si ese parche tiene ruido. Fundamento completo en
-`skills/dark-editorial-retouch/references/logo-integration.md`.
-
-## Pruebas incluidas
-
-`examples/demo/` (4:5, editorial) y `examples/demo_motion/` (9:16, motion) son resultados
-reales del motor —insignia incluida— sobre dos bases de prueba, para ver el salto
-antes/despues sin depender de los links externos. `examples/antes_despues.jpg` es la
-comparativa lado a lado.
-
-> **Pendiente**: las 12 fotos del cliente (`links.txt`) no se pudieron descargar desde este
-> entorno (solo hay salida a GitHub/PyPI). Con `make fetch` en una maquina con red abierta,
-> o subiendo las fotos al chat, se procesan con exactamente el mismo comando.
+Pendiente: las 12 fotos del cliente (links.txt) no se pudieron descargar desde este entorno (solo hay salida a GitHub/PyPI). Con make fetch en una maquina con red abierta, o subiendo las fotos al chat, se procesan con exactamente el mismo comando.
