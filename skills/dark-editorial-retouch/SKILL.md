@@ -1,6 +1,6 @@
 ---
 name: dark-editorial-retouch
-description: Retoque fotografico profesional en clave baja (tattoo / editorial oscuro) con efecto 3D, brillos, profundidad, balance de luz, grano filmico e integracion de marca sin texto. Usa esta skill cuando haya que tratar fotos de tatuajes, piel, cuero o producto sobre fondo negro y entregar piezas de feed/story con logotipo integrado.
+description: Retoque fotografico profesional en clave baja para estudio de tatuaje y piercing (marca ABYSS) con efecto 3D, brillos, profundidad, balance de luz y grano filmico, mas integracion de la insignia del estudio sin texto. Usa esta skill cuando haya que tratar fotos de tatuajes, piel o cuero sobre fondo negro y entregar piezas de feed/story con la insignia integrada.
 license: uso libre en este repositorio
 ---
 
@@ -37,7 +37,7 @@ integrada de forma invisible. Todo se ejecuta sin dependencias de nube: `scripts
 | 08 | Escultura 3D | `sculpture_3d` | `sculpture` |
 | 09 | Dodge & burn | `dodge_burn` | `dodge`, `burn`, `key_light` |
 | 10 | Brillo / bloom | `bloom` | `bloom`, `bloom_radius` |
-| 11 | Grade + grano + marca | `grade`, `grain_and_vignette`, `composite_logo` | `split_amount`, `grain` |
+| 11 | Grade + grano + marca | `grade`, `grain_and_vignette`, `composite_logo` | `split_amount`, `grain`, `logo_width` |
 
 Detalle tecnico de cada etapa: `references/pipeline.md`.
 Psicologia de la luz y del 3D: `references/light-and-depth.md`.
@@ -47,13 +47,13 @@ Marca: `references/logo-integration.md`.
 ## Uso rapido
 
 ```bash
-# una foto, look editorial con logo
+# una foto, look editorial con la insignia (posicion automatica)
 python3 scripts/retouch.py foto.jpg --out out/ --preset editorial \
-        --logo assets/brand/logo_ivory.png --logo-width 0.32
+        --crop 1080x1350 --logo assets/brand/abyss_knockout.png --logo-width 0.20
 
 # lote completo, recorte 4:5 para feed + hoja de contacto + reporte
 python3 scripts/retouch.py ./fotos --out ./out --preset motion \
-        --crop 1080x1350 --logo assets/brand/logo_ivory.png \
+        --crop 1080x1350 --logo assets/brand/abyss_knockout.png --logo-pos auto \
         --sheet out/_contacto.jpg --report out/_reporte.json
 
 # variantes de entrega
@@ -69,9 +69,11 @@ python3 scripts/retouch.py ./fotos --out ./out --preset motion \
 2. **Ninguna zona plana quemada**: p99 < 1.0 salvo especulares puntuales (<0.2% del area).
 3. **La piel conserva poro**: si al 100% se ve plastico, se bajo `micro_contrast` o se subio `bloom`.
 4. **El relieve viene de la luz, no del contraste global**: subir `sculpture`, no `contrast`.
-5. **El logo se lee**: alto de texto >= 9 px en el archivo final; si no, usar variante compacta.
-6. **El logo no flota**: sombra proyectada suave o halo, nunca caja ni rectangulo de color.
-7. **Consistencia**: mismo `--width` de logo y mismo preset en toda la serie.
+5. **La insignia se lee**: el texto "ABYSS / TATTOO Y PIERCING" debe leerse al 100%; si no,
+   subir `--logo-width` (0.20-0.22 en 4:5) o usar `abyss_line.png`.
+6. **La insignia no flota ni se ve la placa**: usar `abyss_knockout.png` (se quita el disco
+   marron conservando crema y verde). Nunca una caja ni un rectangulo de color.
+7. **Consistencia**: mismo `--logo-width`, misma esquina y mismo preset en toda la serie.
 8. **Sin texto**: si el pedido dice "sin textos", no se agrega copy; el logo es la unica marca.
 
 ## Errores frecuentes y su sintoma
@@ -84,7 +86,8 @@ python3 scripts/retouch.py ./fotos --out ./out --preset motion \
 | Sujeto oscuro y fondo ruidoso | medicion por promedio del encuadre | `meter_subject` (descarta fondo) |
 | Look "IA plastico" | bloom alto + micro detalle alto | bajar ambos 30% y subir grano a 0.03 |
 | Bandas en el degradado del scrim | gradiente por anillos discretos | gradiente analitico + dither |
-| Logo ilegible | escalado por fraccion del ancho en imagen chica | variante compacta o marca sola |
+| Insignia ilegible | escalado por el ancho en imagenes chicas | medir sobre el lado corto (`auto`) |
+| Se ve la placa de la insignia | PNG original con su disco marron | usar `abyss_knockout.png` |
 
 ## Salida
 

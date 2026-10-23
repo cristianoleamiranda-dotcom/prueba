@@ -15,8 +15,9 @@ Coleccion de skills oficiales de Anthropic, con el formato `SKILL.md` + frontmat
   acento grafico.
   https://github.com/anthropics/skills/blob/main/skills/canvas-design/SKILL.md
 - `skills/brand-guidelines` — paleta y tipografia como contrato, con variantes por
-  contexto. **Aplicado:** `assets/brand/` con 3 tintas × 3 formatos + SVG y reglas de
-  cuando usar cada uno (ver `references/logo-integration.md`).
+  contexto. **Aplicado:** `assets/brand/` con 5 variantes de la insignia (knockout,
+  lineas, color, monocromo oscuro, tamanos de avatar) y la regla de cuando usar cada una;
+  la insignia a color nunca se recolorea (ver `references/logo-integration.md`).
   https://github.com/anthropics/skills/blob/main/skills/brand-guidelines/SKILL.md
 
 ## 2. `ComposioHQ/awesome-claude-skills` (77k ★)
@@ -61,5 +62,5 @@ https://github.com/vercel-labs/skills
 
 > Nota: no se copio codigo de terceros. Se tomaron criterios de estructura (formato de
 > skill, separacion instrucciones/referencias) y conocimiento fotografico publico; toda
-> la implementacion de `retouch.py` y `make_logo.py` es original y solo depende de
+> la implementacion de `retouch.py` y `prepare_brand.py` es original y solo depende de
 > numpy / scipy / Pillow / pillow-heif.

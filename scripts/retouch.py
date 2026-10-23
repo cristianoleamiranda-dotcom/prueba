@@ -18,8 +18,8 @@ Implementa, en orden de flujo profesional:
 
 Uso:
   python3 scripts/retouch.py foto.jpg --out out/foto.jpg --preset editorial
-  python3 scripts/retouch.py ./fotos --out ./out --logo assets/brand/logo_ivory.png
-  python3 scripts/retouch.py foto.heif --out out --preset motion --logo-pos tr
+  python3 scripts/retouch.py ./fotos --out ./out --logo assets/brand/abyss_knockout.png
+  python3 scripts/retouch.py foto.heif --out out --preset motion --logo-pos auto
 """
 from __future__ import annotations
 
@@ -464,14 +464,33 @@ def sharpening(rgb: np.ndarray, amount: float) -> np.ndarray:
 
 
 # ----------------------------------------------------------------------------- marca
+def _is_monochrome(logo: Image.Image, tol: float = 0.06) -> bool:
+    """True si el logo es basicamente una sola tinta (se puede recolorear sin traicionarlo).
+
+    Una insignia a color (crema + verde + marron) NO se toca: se usa tal cual.
+    """
+    a = np.asarray(logo.convert("RGBA")).astype(np.float32) / 255.0
+    m = a[..., 3] > 0.35
+    if m.sum() < 50:
+        return True
+    px = a[m][:, :3]
+    lum = px.mean(axis=1)
+    sat = px.max(axis=1) - px.min(axis=1)
+    # saturacion media baja y luminancia concentrada -> monotinta
+    # monotinta = una sola tinta sobre transparente: saturacion baja y luminancia uniforme
+    return (float(np.percentile(sat, 90)) < tol
+            and float(np.percentile(lum, 90) - np.percentile(lum, 10)) < 0.12)
+
+
 def _fit_logo(logo: Image.Image, target_w: int) -> Image.Image:
     r = target_w / logo.size[0]
     return logo.resize((int(target_w), max(1, int(logo.size[1] * r))), Image.LANCZOS)
 
 
-def composite_logo(rgb: np.ndarray, logo_path: str, pos: str = "bl",
-                   width_frac: float = 0.28, margin_frac: float = 0.055,
-                   scrim: bool = True, glow: bool = True) -> tuple[np.ndarray, dict]:
+def composite_logo(rgb: np.ndarray, logo_path: str, pos: str = "auto",
+                   width_frac: float = 0.20, margin_frac: float = 0.055,
+                   scrim: bool = True, glow: bool = True, blend: str = "auto",
+                   tint: str = "auto") -> tuple[np.ndarray, dict]:
     """Integra la marca de forma profesional:
 
     1. elige color de tinta segun la luminancia local del fondo (contraste garantizado)
@@ -480,8 +499,13 @@ def composite_logo(rgb: np.ndarray, logo_path: str, pos: str = "bl",
     4. scrim local opcional solo si el fondo es sucio (garantiza legibilidad sin cajas)
     """
     h, w = rgb.shape[:2]
-    base = Image.open(logo_path).convert("RGBA")
-    tw = int(w * width_frac)
+    base_raw = Image.open(logo_path).convert("RGBA")
+    # un logo cuadrado (insignia) se escala por el lado corto del encuadre, no por el ancho:
+    # asi no se vuelve gigante en formatos horizontales ni diminuto en 9:16
+    square = abs(base_raw.width / max(base_raw.height, 1) - 1.0) < 0.08
+    ref = min(w, h) if square else w
+    base = base_raw
+    tw = int(ref * width_frac)
     # legibilidad: por debajo de ~9 px de altura de texto, se prefiere la marca sola
     if tw < 300 and "compact" not in logo_path and "_mark" not in logo_path:
         alt = logo_path.replace(".png", "").replace("logo_", "logo_compact_") + ".png"
@@ -495,6 +519,21 @@ def composite_logo(rgb: np.ndarray, logo_path: str, pos: str = "bl",
     lw, lh = lg.size
     mx = int(w * margin_frac)
     my = int(h * margin_frac * 0.75)
+
+    # 0) posicion automatica: la esquina mas 'tranquila' (oscura y pareja) para que la
+    #    marca nunca caiga sobre el tatuaje ni sobre una zona de alto detalle
+    if pos == "auto":
+        best, best_score = "br", 1e9
+        for cand, (cx, cy) in {"br": (w - mx - lw, h - my - lh), "bl": (mx, h - my - lh),
+                               "tr": (w - mx - lw, my), "tl": (mx, my)}.items():
+            p_ = rgb[max(0, cy):cy + lh, max(0, cx):cx + lw]
+            if p_.size == 0:
+                continue
+            score = float(_luma(p_).mean()) + 1.6 * float(np.std(_luma(p_)))
+            if score < best_score - 1e-4:
+                best, best_score = cand, score
+        pos = best
+
     px, py = {
         "tl": (mx, my), "tr": (w - mx - lw, my),
         "bl": (mx, h - my - lh), "br": (w - mx - lw, h - my - lh),
@@ -502,14 +541,45 @@ def composite_logo(rgb: np.ndarray, logo_path: str, pos: str = "bl",
         "tc": ((w - lw) // 2, my),
     }[pos]
 
-    # 1) luminancia del fondo bajo la marca -> tinta clara u oscura
+    # 1) luminancia del fondo bajo la marca
     patch = rgb[max(0, py):py + lh, max(0, px):px + lw]
     bg_l = float(_luma(patch).mean()) if patch.size else 0.1
-    ink = Image.new("RGBA", (lw, lh), (245, 242, 235, 255) if bg_l < 0.55
-                    else (16, 16, 16, 255))
-    tinted = Image.composite(ink, Image.new("RGBA", (lw, lh), (0, 0, 0, 0)), lg.split()[-1])
+
+    # 2) color: una insignia a color se respeta tal cual; solo se recolorea si es monotinta
+    mono = _is_monochrome(lg)
+    do_tint = (tint == "always") or (tint == "auto" and mono)
+    if do_tint:
+        ink = Image.new("RGBA", (lw, lh), (245, 242, 235, 255) if bg_l < 0.55
+                        else (16, 16, 16, 255))
+        tinted = Image.composite(ink, Image.new("RGBA", (lw, lh), (0, 0, 0, 0)), lg.split()[-1])
+    else:
+        tinted = lg.copy()
 
     canvas = Image.fromarray((np.clip(rgb, 0, 1) * 255).astype(np.uint8)).convert("RGBA")
+
+    # 3) modo de fusion: 'screen' funde el disco oscuro de la insignia con el negro
+    #    (las lineas claras sobreviven) sin 'caja' visible; 'normal' deja la insignia solida
+    mode = blend
+    if mode == "auto":
+        # screen solo para marcas monotinta sin disco propio (lineas sobre transparente):
+        # en una insignia a color, screen deja pasar la textura del fondo y ensucia el sello
+        mode = "screen" if (not do_tint) else "normal"
+    if mode == "screen":
+        canvas0 = np.asarray(canvas.convert("RGB"), dtype=np.float32) / 255.0
+        y0, x0 = max(0, py), max(0, px)
+        lgt = np.asarray(tinted.convert("RGB"), dtype=np.float32) / 255.0
+        al = np.asarray(tinted.split()[-1], dtype=np.float32)[..., None] / 255.0
+        hh, ww = lgt.shape[:2]
+        y1, x1 = min(h, y0 + hh), min(w, x0 + ww)
+        lgt = lgt[:y1 - y0, :x1 - x0]
+        al = al[:y1 - y0, :x1 - x0]
+        reg = canvas0[y0:y1, x0:x1]
+        scr = 1.0 - (1.0 - reg) * (1.0 - lgt)
+        canvas0[y0:y1, x0:x1] = reg + (scr - reg) * al
+        canvas = Image.fromarray((np.clip(canvas0, 0, 1) * 255).astype(np.uint8)).convert("RGBA")
+    else:
+        # la capa normal se compone mas abajo (necesita sombra y halo previos)
+        pass
 
     # 4) scrim: solo cuando el fondo bajo la marca es sucio (si es negro limpio, no se usa)
     if scrim:
@@ -547,21 +617,26 @@ def composite_logo(rgb: np.ndarray, logo_path: str, pos: str = "bl",
         halo = halo.filter(ImageFilter.GaussianBlur(max(4, lw * 0.03)))
         canvas = Image.alpha_composite(canvas, halo)
 
-    layer = Image.new("RGBA", (w, h), (0, 0, 0, 0))
-    layer.paste(tinted, (px, py), tinted)
-    canvas = Image.alpha_composite(canvas, layer)
+    if mode != "screen":
+        layer = Image.new("RGBA", (w, h), (0, 0, 0, 0))
+        layer.paste(tinted, (px, py), tinted)
+        canvas = Image.alpha_composite(canvas, layer)
 
     meta = {"logo": os.path.relpath(logo_path, ROOT) if os.path.isabs(logo_path) else logo_path,
-            "pos": pos, "width_px": lw, "ink": "ivory" if bg_l < 0.55 else "ink",
-            "bg_luma": round(bg_l, 3), "bg_noise": round(float(np.std(_luma(patch))), 4),
+            "pos": pos, "size_px": lw, "square": square, "ref": "short-side" if square else "width",
+            "monochrome": bool(mono), "tint": "ivory" if (do_tint and bg_l < 0.55)
+            else ("ink" if do_tint else "original"),
+            "blend": mode, "bg_luma": round(bg_l, 3),
+            "bg_noise": round(float(np.std(_luma(patch))), 4),
             "scrim": bool(scrim), "halo": bool(glow and bg_l < 0.42)}
     return _f(np.asarray(canvas.convert("RGB"), dtype=np.uint8)), meta
 
 
 # ----------------------------------------------------------------------------- pipeline
 def retouch(path: str, out_path: str, preset: Preset, logo: str | None = None,
-            logo_pos: str = "bl", logo_width: float = 0.28, seed: int = 7,
-            crop: str | None = None, save_png: bool = False) -> dict:
+            logo_pos: str = "auto", logo_width: float = 0.20, seed: int = 7,
+            crop: str | None = None, save_png: bool = False,
+            logo_blend: str = "auto", logo_tint: str = "auto") -> dict:
     im = _load(path)
     src_size = im.size
     if crop:
@@ -596,7 +671,8 @@ def retouch(path: str, out_path: str, preset: Preset, logo: str | None = None,
     logo_meta = None
     if logo:
         lp = logo if os.path.isabs(logo) else os.path.join(ROOT, logo)
-        rgb, logo_meta = composite_logo(rgb, lp, logo_pos, logo_width)
+        rgb, logo_meta = composite_logo(rgb, lp, logo_pos, logo_width,
+                                        blend=logo_blend, tint=logo_tint)
 
     os.makedirs(os.path.dirname(os.path.abspath(out_path)) or ".", exist_ok=True)
     out = (np.clip(rgb, 0, 1) * 255 + 0.5).astype(np.uint8)
@@ -643,10 +719,18 @@ def main(argv=None):
     ap.add_argument("target", help="archivo o carpeta")
     ap.add_argument("--out", default="out", help="archivo o carpeta de salida")
     ap.add_argument("--preset", default="editorial", choices=sorted(PRESETS))
-    ap.add_argument("--logo", default=None, help="ruta al PNG del logo (opcional)")
-    ap.add_argument("--logo-pos", default="bl", choices=["tl", "tr", "bl", "br", "bc", "tc"])
-    ap.add_argument("--logo-width", type=float, default=0.28,
-                    help="ancho del logo como fraccion del ancho de la imagen")
+    ap.add_argument("--logo", default=None,
+                    help="PNG del logo. Recomendado: assets/brand/abyss_knockout.png")
+    ap.add_argument("--logo-pos", default="auto",
+                    choices=["auto", "tl", "tr", "bl", "br", "bc", "tc"],
+                    help="auto = esquina mas tranquila (oscura y pareja) del encuadre")
+    ap.add_argument("--logo-width", type=float, default=0.20,
+                    help="tamano del logo. En insignias cuadradas se mide sobre el lado "
+                         "corto del encuadre (0.18-0.22 es el rango profesional)")
+    ap.add_argument("--logo-blend", default="auto", choices=["auto", "normal", "screen"],
+                    help="screen funde el disco oscuro de la insignia con el fondo negro")
+    ap.add_argument("--logo-tint", default="auto", choices=["auto", "always", "never"],
+                    help="auto recolorea solo logos monotinta; never respeta el color original")
     ap.add_argument("--crop", default=None, help="recorte final, ej. 1200x1500 o 1080x1920")
     ap.add_argument("--png", action="store_true", help="exportar PNG en vez de JPEG")
     ap.add_argument("--seed", type=int, default=7)
@@ -696,7 +780,7 @@ def main(argv=None):
             out = args.out if os.path.splitext(args.out)[1] else os.path.join(args.out,
                                                                             os.path.basename(f))
         rec = retouch(f, out, preset, args.logo, args.logo_pos, args.logo_width,
-                      args.seed, args.crop, args.png)
+                      args.seed, args.crop, args.png, args.logo_blend, args.logo_tint)
         records.append(rec)
         sheet_items.append((f, out))
         print(f"[ok] {os.path.basename(f)} -> {out}  ({rec['output_size'][0]}x{rec['output_size'][1]})")

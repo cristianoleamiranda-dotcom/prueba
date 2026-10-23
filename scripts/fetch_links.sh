@@ -54,5 +54,5 @@ done < "$LIST"
 
 echo
 echo "Descargadas: $ok   Fallidas: $fail   -> $OUT"
-[ "$ok" -gt 0 ] && echo "Siguiente paso:  python3 scripts/retouch.py incoming --out out --preset editorial --logo assets/brand/logo_ivory.png"
+[ "$ok" -gt 0 ] && echo "Siguiente paso:  python3 scripts/retouch.py incoming --out out/feed --preset editorial --logo assets/brand/abyss_knockout.png --logo-pos auto --logo-width 0.20 --crop 1080x1350"
 exit 0

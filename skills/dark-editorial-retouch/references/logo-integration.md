@@ -1,78 +1,97 @@
-# Marca: integrar el logo sin que parezca pegado
+# Marca ABYSS: integrar la insignia sin que parezca pegada
 
-Objetivo: que la marca pertenezca a la imagen. Un logo que "flota" o que esta metido en
-una caja semitransparente abarata la pieza; uno bien integrado se lee como firma de autor.
+La marca es una **insignia circular con placa oscura** (crema + verde azulado + marron).
+Eso cambia las reglas respecto de un logo monotinta: hay que decidir que hacer con la placa.
 
-## Las 7 reglas (con la investigacion detras)
+## 1. El problema de la placa
 
-1. **Esquina primero, centro nunca.** Las esquinas enmarcan sin competir con el sujeto.
-   Bottom-right es el estandar de watermark (el ojo termina ahi: se lee como firma);
-   bottom-left funciona cuando el sujeto ocupa la derecha. El centro es para portadas.
-2. **5-20% del ancho de la imagen.** Referencias de fotografia profesional coinciden en
-   5-10% para marcas discretas y 10-20% para marca de estudio. En este sistema:
-   `--logo-width 0.28` para el lockup con texto (el ancho del *lockup* incluye margen),
-   `0.10-0.15` para la marca sola. Lo que importa no es la fraccion sino la
-   **altura tipografica final**: >= 9 px en el archivo entregado.
-3. **Zona tranquila.** El logo va donde no hay informacion: negro limpio, pared lisa,
-   fondo desenfocado. Nunca sobre el tatuaje ni sobre el punto de mayor interes.
-4. **Espacio de resguardo = 1x la altura del elemento principal** de la marca, en los
-   cuatro lados. Implementado como `margin_frac` relativo al encuadre, no en pixeles fijos.
-5. **Contraste garantizado.** Si el fondo bajo la marca es oscuro → tinta hueso; si es
-   claro → tinta negra. `composite_logo()` lo decide midiendo la luminancia de ese parche
-   (`bg_luma < 0.55`). Nunca se usa el logo de color sobre fotografia.
-6. **Sin cajas.** Si hace falta separar del fondo, se usa un **scrim radial** suave
-   (gradiente + dither, no un rectangulo) y solo cuando el fondo tiene ruido
-   (`bg_noise > 0.045`). Sobre negro limpio el scrim se omite: la caja se nota.
-7. **Asentamiento fisico.** Sombra proyectada suave (desplazada ~8% de la altura del logo,
-   desenfoque ~2% del ancho) + un halo calido muy tenue cuando el fondo es negro. Eso
-   integra la marca a la escena en lugar de superponerla.
+La insignia tiene su propio disco marron. Si se pega tal cual sobre una foto, se lee como
+**sticker**: un circulo semi-oscuro sobre negro queda como un parche, y ademas deja pasar
+la textura del fondo (tela, piel) dentro del sello.
 
-## Consistencia de serie
+Tres soluciones, de mas util a menos:
 
-En una serie de 10-30 fotos, la marca debe estar **en el mismo lugar y del mismo
-tamano**. Por eso el sistema usa fracciones del encuadre (no pixeles) y una sola
-decision por lote:
-
-```bash
-python3 scripts/retouch.py ./fotos --out ./out --preset editorial \
-        --logo assets/brand/logo_ivory.png --logo-pos bl --logo-width 0.28
-```
-
-El `_reporte.json` registra `pos`, `width_px`, `ink`, `bg_luma`, `scrim` y `halo` por
-imagen: si una foto se desvia (por ejemplo, la marca cambia a tinta oscura porque el
-fondo se aclaro), se detecta en el reporte antes de publicar.
-
-## Variantes del archivo de marca
-
-| Archivo | Uso | Ancho minimo |
+| Variante | Como se obtiene | Cuando usarla |
 |---|---|---|
-| `logo_ivory.png` | lockup completo sobre fotos oscuras | 480 px (relativo: `0.28`) |
-| `logo_gold.png` | acento premium, sobre negro absoluto | 480 px |
-| `logo_ink.png` | sobre fondos claros / papel | 480 px |
-| `logo_compact_ivory.png` | solo marca + nombre, encuadres apretados | 240 px |
-| `logo_mark_ivory.png` | sello, favicon, avatar, story | 120 px |
-| `logo.svg` | vectorial, para imprenta o web | — |
+| `abyss_knockout.png` | alfa = alfa_original x smoothstep(luminancia). Se quita la placa marron y **se conservan crema y verde** | **Uso principal** sobre fotos oscuras |
+| `abyss_line.png` | igual, pero todo el arte pasa a una sola tinta crema | cuando la foto tiene zonas medias y el marron competiria |
+| `abyss_color.png` | insignia original intacta | sobre negro absoluto sin textura, o en piezas graficas |
 
-`composite_logo()` hace el cambio de variante solo: si el lockup quedaria por debajo de
-300 px de ancho usa `compact`, y por debajo de 150 px usa la marca sola. Asi nunca se
-entrega un logo ilegible por accidente.
+`_knockout()` conserva los colores del cliente: no es un recoloreo, es una extraccion de
+alfa por luminancia. El resultado flota sobre negro como si estuviera impreso con tinta
+transparente.
 
-## Regenerar la marca
+## 2. Modo de fusion
 
-```bash
-python3 scripts/make_logo.py --name "ESTUDIO TINTA" --sub "SANTIAGO · CHILE" --width 2400
+- `screen` (por defecto cuando la marca es monotinta): el disco oscuro se hunde en el negro,
+  las lineas claras sobreviven. Cero caja visible.
+- `normal` (por defecto para insignias a color con placa): la insignia se compone solida.
+  Solo se usa cuando el knockout no aplica (por ejemplo, piezas sobre blanco).
+
+Nunca: `multiply` sobre negro (desaparece), ni `overlay` (destruye el crema).
+
+## 3. Tamano: lado corto, no ancho
+
+Una insignia cuadrada escalada por el ancho del encuadre queda enorme en 16:9 y diminuta
+en 9:16. `composite_logo()` detecta el aspecto cuadrado y mide sobre **el lado corto**:
+
+```
+lado_logo = min(ancho, alto) * --logo-width
 ```
 
-Produce las 9 variantes PNG (ivory / gold / ink × lockup / compact / mark) y el SVG.
-La marca es una aguja dentro de un rombo dentro de un circulo: lectura = tinta +
-precision, geometria dura, legible a 40 px. El lockup usa serif con tracking amplio
-(autoridad) + sans con tracking mayor en el subtitulo (direccion de arte editorial).
+Rangos profesionales: **0.18-0.22** para feed 4:5, **0.15-0.18** para story 9:16.
+La marca nunca debe pasar del 25% del lado corto: compite con el sujeto.
 
-## Errores que se notan de inmediato
+## 4. Posicion: automatica
 
-- Logo con transparencia sobre zona de alto detalle (se ensucia).
-- Logo blanco al 100% sobre zona con textura clara: pierde bordes.
-- Logo mas grande del 25% del ancho: compite y grita "watermark".
-- Marca distinta de posicion entre fotos del mismo carrusel.
-- Sombra dura/negra tipo "drop shadow" de PowerPoint: usar siempre desenfoque amplio y
-  opacidad baja.
+`--logo-pos auto` evalua las cuatro esquinas y elige la **mas tranquila**:
+
+```
+score = luminancia_media + 1.6 * desviacion_estandar
+```
+
+Menor score = mas oscura y mas pareja. Asi la insignia cae en negativo limpio y nunca
+sobre el tatuaje. En la practica: si el brazo ocupa la izquierda, cae a la derecha; si el
+dedo baja por la esquina inferior derecha, sube.
+
+Para una serie se puede fijar (`bl`, `br`, `tl`, `tr`) y mantener consistencia, o dejar
+`auto` y verificar el reporte (campo `pos` por imagen).
+
+## 5. Espacio de resguardo y margen
+
+`margin_frac = 0.055` del encuadre, con 25% menos en vertical. La marca respira del borde:
+una insignia pegada al corte se lee como accidente.
+
+## 6. Asentamiento
+
+- **Halo** tenue solo si el fondo bajo la marca es muy oscuro (`bg_luma < 0.42`): separa
+  las lineas finas del fondo sin dibujar caja.
+- **Sombra proyectada** desplazada ~8% de la altura con desenfoque amplio: la asienta.
+- **Scrim** solo si el fondo tiene ruido (`bg_noise > 0.045`), con gradiente radial
+  analitico + dither. Sobre negro limpio se omite: la caja se nota.
+
+## 7. Kit de marca (`make brand`)
+
+| Archivo | Uso | Tamano natural |
+|---|---|---|
+| `abyss_knockout.png` | fotos oscuras (principal) | 1200 px |
+| `abyss_line.png` | fotos con zonas medias | 1200 px |
+| `abyss_color.png` | negro absoluto / piezas graficas | 1200 px |
+| `abyss_ink.png` | papel, membretes, fondos claros | 1200 px |
+| `abyss_512 / 256 / 128.png` | avatar, favicon, sello | — |
+| `abyss_source.png` | original del cliente (fuente de verdad) | 1100 px |
+
+Todo se regenera desde el original:
+
+```bash
+make brand
+# equivale a: python3 scripts/prepare_brand.py --src assets/brand/abyss_source.png --name abyss
+```
+
+## 8. Reglas que no se rompen
+
+- No se recolorea la insignia a color (crema y verde son identidad).
+- No se deforma ni se rota.
+- No se pone sobre el tatuaje ni sobre el punto de mayor interes.
+- Misma esquina y mismo tamano en toda la serie.
+- Cero texto agregado a la foto: la insignia ya trae el nombre.
