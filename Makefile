@@ -3,7 +3,7 @@ BRAND := assets/brand/abyss_knockout.png
 SRC   ?= incoming
 OUT   ?= out
 
-.PHONY: help install brand demo fetch feed story paquete all resumen clean
+.PHONY: help install brand demo fetch feed story paquete ficha all resumen clean
 
 help:
 	@echo "make install  - dependencias de python"
@@ -13,6 +13,7 @@ help:
 	@echo "make story    - lote 9:16 (1080x1920) con insignia [preset motion]"
 	@echo "make demo     - reprocesa las bases de ejemplo"
 	@echo "make paquete  - feed+story+resumen desde SRC=<carpeta> (sin descargar nada)"
+	@echo "make ficha    - ficha de marca (referencia unica para generar tomas con IA)"
 	@echo "make all      - fetch + feed + story + resumen (entrega completa)"
 	@echo "make resumen  - tabla de la ultima entrega (EV, esquina, tamano de insignia)"
 	@echo "make clean    - borra out/"
@@ -43,6 +44,10 @@ demo:
 		--crop 1080x1350 --logo $(BRAND) --logo-pos auto --logo-width 0.20
 	$(PY) scripts/retouch.py examples/_demo_src --out examples/demo_motion --preset motion \
 		--crop 1080x1920 --logo $(BRAND) --logo-pos auto --logo-width 0.17
+
+# ficha de marca: la referencia que se adjunta a toda generacion con IA
+ficha:
+	$(PY) scripts/ficha.py
 
 # entrega de una carpeta ya disponible (fotos subidas al chat, o cualquier ruta)
 paquete: feed story resumen
