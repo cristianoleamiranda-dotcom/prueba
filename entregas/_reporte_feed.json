@@ -1,0 +1,1599 @@
+{
+  "preset": {
+    "name": "feed",
+    "exposure": 0.0,
+    "target_mid": 0.36,
+    "key_tone": 0.66,
+    "ev_limit": 0.35,
+    "contrast": 0.13,
+    "black_density": 0.14,
+    "clarity": 0.15,
+    "sculpture": 0.32,
+    "dodge": 0.08,
+    "burn": 0.18,
+    "bloom": 0.06,
+    "bloom_radius": 0.009,
+    "bloom_warmth": 0.14,
+    "micro_contrast": 0.1,
+    "vibrance": 0.08,
+    "saturation": 0.98,
+    "wb_strength": 0.45,
+    "wb_clip": 0.16,
+    "shadow_tint": [
+      0.06,
+      0.09,
+      0.14
+    ],
+    "highlight_tint": [
+      0.14,
+      0.11,
+      0.06
+    ],
+    "split_amount": 0.08,
+    "grain": 0.006,
+    "vignette": 0.24,
+    "sharpness": 0.24,
+    "key_light": [
+      0.34,
+      0.24
+    ],
+    "key_strength": 0.08,
+    "upscale": 1
+  },
+  "images": [
+    {
+      "in": "incoming/feed/craneo.jpg",
+      "out": "entregas/feed/craneo_retouched.jpg",
+      "source_size": [
+        900,
+        1200
+      ],
+      "output_size": [
+        900,
+        1200
+      ],
+      "exposure_ev": 0.17,
+      "meter_in": {
+        "key_tone": 0.5327659249305725,
+        "mid_tone": 0.1717313677072525,
+        "subject_ratio": 0.7304092592592593,
+        "bg_level": 0.05035435035824776
+      },
+      "preset": "feed",
+      "analysis_in": {
+        "size": [
+          900,
+          1200
+        ],
+        "luma_p01": 0.046281568706035614,
+        "luma_p50": 0.12173333764076233,
+        "luma_p99": 0.771648645401001,
+        "shadow_clip": 0.0002138888888888889,
+        "highlight_clip": 0.0,
+        "cast_rgb_median": [
+          0.0471,
+          0.1373,
+          0.1529
+        ],
+        "cast_ratio": [
+          0.343,
+          1.114
+        ]
+      },
+      "analysis_out": {
+        "size": [
+          900,
+          1200
+        ],
+        "luma_p01": 0.0,
+        "luma_p50": 0.04376000165939331,
+        "luma_p99": 0.9422933459281921,
+        "shadow_clip": 0.33331203703703705,
+        "highlight_clip": 0.0015425925925925926,
+        "cast_rgb_median": [
+          0.0157,
+          0.051,
+          0.0549
+        ],
+        "cast_ratio": [
+          0.308,
+          1.077
+        ]
+      },
+      "logo": {
+        "logo": "assets/brand/abyss_knockout.png",
+        "pos": "bl",
+        "size_px": 171,
+        "square": true,
+        "ref": "short-side",
+        "monochrome": false,
+        "tint": "original",
+        "blend": "screen",
+        "bg_luma": 0.021,
+        "bg_noise": 0.0248,
+        "scrim": false,
+        "halo": true
+      }
+    },
+    {
+      "in": "incoming/feed/cristo.jpg",
+      "out": "entregas/feed/cristo_retouched.jpg",
+      "source_size": [
+        900,
+        1200
+      ],
+      "output_size": [
+        900,
+        1200
+      ],
+      "exposure_ev": 0.35,
+      "meter_in": {
+        "key_tone": 0.403982937335968,
+        "mid_tone": 0.157786563038826,
+        "subject_ratio": 0.8665916666666666,
+        "bg_level": 0.03839895874261856
+      },
+      "preset": "feed",
+      "analysis_in": {
+        "size": [
+          900,
+          1200
+        ],
+        "luma_p01": 0.01543921697884798,
+        "luma_p50": 0.15217098593711853,
+        "luma_p99": 0.6679843664169312,
+        "shadow_clip": 0.016905555555555556,
+        "highlight_clip": 0.0,
+        "cast_rgb_median": [
+          0.0588,
+          0.1765,
+          0.2039
+        ],
+        "cast_ratio": [
+          0.333,
+          1.156
+        ]
+      },
+      "analysis_out": {
+        "size": [
+          900,
+          1200
+        ],
+        "luma_p01": 0.0,
+        "luma_p50": 0.08900313824415207,
+        "luma_p99": 0.8393145799636841,
+        "shadow_clip": 0.15144814814814814,
+        "highlight_clip": 0.0004907407407407407,
+        "cast_rgb_median": [
+          0.0314,
+          0.102,
+          0.1176
+        ],
+        "cast_ratio": [
+          0.308,
+          1.154
+        ]
+      },
+      "logo": {
+        "logo": "assets/brand/abyss_knockout.png",
+        "pos": "tl",
+        "size_px": 171,
+        "square": true,
+        "ref": "short-side",
+        "monochrome": false,
+        "tint": "original",
+        "blend": "screen",
+        "bg_luma": 0.067,
+        "bg_noise": 0.0146,
+        "scrim": false,
+        "halo": true
+      }
+    },
+    {
+      "in": "incoming/feed/fachada.jpg",
+      "out": "entregas/feed/fachada_retouched.jpg",
+      "source_size": [
+        900,
+        1200
+      ],
+      "output_size": [
+        900,
+        1200
+      ],
+      "exposure_ev": 0.253,
+      "meter_in": {
+        "key_tone": 0.48003655672073364,
+        "mid_tone": 0.27497246861457825,
+        "subject_ratio": 0.7248601851851851,
+        "bg_level": 0.07725511491298676
+      },
+      "preset": "feed",
+      "analysis_in": {
+        "size": [
+          900,
+          1200
+        ],
+        "luma_p01": 0.055205490440130234,
+        "luma_p50": 0.2202697992324829,
+        "luma_p99": 0.7702368497848511,
+        "shadow_clip": 0.00041851851851851853,
+        "highlight_clip": 1.574074074074074e-05,
+        "cast_rgb_median": [
+          0.1843,
+          0.2235,
+          0.2039
+        ],
+        "cast_ratio": [
+          0.825,
+          0.912
+        ]
+      },
+      "analysis_out": {
+        "size": [
+          900,
+          1200
+        ],
+        "luma_p01": 0.0,
+        "luma_p50": 0.14852550625801086,
+        "luma_p99": 0.9281083345413208,
+        "shadow_clip": 0.196075,
+        "highlight_clip": 0.0008842592592592592,
+        "cast_rgb_median": [
+          0.1176,
+          0.149,
+          0.1333
+        ],
+        "cast_ratio": [
+          0.789,
+          0.895
+        ]
+      },
+      "logo": {
+        "logo": "assets/brand/abyss_knockout.png",
+        "pos": "br",
+        "size_px": 171,
+        "square": true,
+        "ref": "short-side",
+        "monochrome": false,
+        "tint": "original",
+        "blend": "screen",
+        "bg_luma": 0.107,
+        "bg_noise": 0.1544,
+        "scrim": true,
+        "halo": true
+      }
+    },
+    {
+      "in": "incoming/feed/goku.jpg",
+      "out": "entregas/feed/goku_retouched.jpg",
+      "source_size": [
+        900,
+        1200
+      ],
+      "output_size": [
+        900,
+        1200
+      ],
+      "exposure_ev": 0.35,
+      "meter_in": {
+        "key_tone": 0.40156057476997375,
+        "mid_tone": 0.17415787279605865,
+        "subject_ratio": 0.7061694444444444,
+        "bg_level": 0.05821298062801361
+      },
+      "preset": "feed",
+      "analysis_in": {
+        "size": [
+          900,
+          1200
+        ],
+        "luma_p01": 0.04792862758040428,
+        "luma_p50": 0.1391223669052124,
+        "luma_p99": 0.6071019768714905,
+        "shadow_clip": 1.8518518518518519e-06,
+        "highlight_clip": 0.0,
+        "cast_rgb_median": [
+          0.149,
+          0.1333,
+          0.1176
+        ],
+        "cast_ratio": [
+          1.118,
+          0.882
+        ]
+      },
+      "analysis_out": {
+        "size": [
+          900,
+          1200
+        ],
+        "luma_p01": 0.0,
+        "luma_p50": 0.0731411799788475,
+        "luma_p99": 0.8048706650733948,
+        "shadow_clip": 0.19375833333333334,
+        "highlight_clip": 9.351851851851852e-05,
+        "cast_rgb_median": [
+          0.0784,
+          0.0706,
+          0.0627
+        ],
+        "cast_ratio": [
+          1.111,
+          0.889
+        ]
+      },
+      "logo": {
+        "logo": "assets/brand/abyss_knockout.png",
+        "pos": "bl",
+        "size_px": 171,
+        "square": true,
+        "ref": "short-side",
+        "monochrome": false,
+        "tint": "original",
+        "blend": "screen",
+        "bg_luma": 0.016,
+        "bg_noise": 0.0211,
+        "scrim": false,
+        "halo": true
+      }
+    },
+    {
+      "in": "incoming/feed/lobo_samurai.jpg",
+      "out": "entregas/feed/lobo_samurai_retouched.jpg",
+      "source_size": [
+        900,
+        1200
+      ],
+      "output_size": [
+        900,
+        1200
+      ],
+      "exposure_ev": 0.247,
+      "meter_in": {
+        "key_tone": 0.48316359519958496,
+        "mid_tone": 0.22748343646526337,
+        "subject_ratio": 0.7805564814814815,
+        "bg_level": 0.06934267282485962
+      },
+      "preset": "feed",
+      "analysis_in": {
+        "size": [
+          900,
+          1200
+        ],
+        "luma_p01": 0.052951373159885406,
+        "luma_p50": 0.188801571726799,
+        "luma_p99": 0.714331865310669,
+        "shadow_clip": 0.0,
+        "highlight_clip": 0.0,
+        "cast_rgb_median": [
+          0.2078,
+          0.1843,
+          0.1647
+        ],
+        "cast_ratio": [
+          1.128,
+          0.894
+        ]
+      },
+      "analysis_out": {
+        "size": [
+          900,
+          1200
+        ],
+        "luma_p01": 0.0,
+        "luma_p50": 0.12064235657453537,
+        "luma_p99": 0.9054597020149231,
+        "shadow_clip": 0.17984722222222221,
+        "highlight_clip": 2.962962962962963e-05,
+        "cast_rgb_median": [
+          0.1294,
+          0.1176,
+          0.1059
+        ],
+        "cast_ratio": [
+          1.1,
+          0.9
+        ]
+      },
+      "logo": {
+        "logo": "assets/brand/abyss_knockout.png",
+        "pos": "br",
+        "size_px": 171,
+        "square": true,
+        "ref": "short-side",
+        "monochrome": false,
+        "tint": "original",
+        "blend": "screen",
+        "bg_luma": 0.046,
+        "bg_noise": 0.0395,
+        "scrim": false,
+        "halo": true
+      }
+    },
+    {
+      "in": "incoming/feed/maestro.jpg",
+      "out": "entregas/feed/maestro_retouched.jpg",
+      "source_size": [
+        768,
+        1365
+      ],
+      "output_size": [
+        768,
+        1365
+      ],
+      "exposure_ev": 0.229,
+      "meter_in": {
+        "key_tone": 0.4942838251590729,
+        "mid_tone": 0.2519950270652771,
+        "subject_ratio": 0.7243666056166056,
+        "bg_level": 0.015399954281747341
+      },
+      "preset": "feed",
+      "analysis_in": {
+        "size": [
+          768,
+          1365
+        ],
+        "luma_p01": 0.007843137718737125,
+        "luma_p50": 0.1778596192598343,
+        "luma_p99": 0.6682667136192322,
+        "shadow_clip": 0.07470524267399267,
+        "highlight_clip": 9.53907203907204e-07,
+        "cast_rgb_median": [
+          0.1686,
+          0.1804,
+          0.149
+        ],
+        "cast_ratio": [
+          0.935,
+          0.826
+        ]
+      },
+      "analysis_out": {
+        "size": [
+          768,
+          1365
+        ],
+        "luma_p01": 0.0,
+        "luma_p50": 0.10565097630023956,
+        "luma_p99": 0.841481626033783,
+        "shadow_clip": 0.2881400717338217,
+        "highlight_clip": 3.338675213675214e-05,
+        "cast_rgb_median": [
+          0.098,
+          0.1098,
+          0.0902
+        ],
+        "cast_ratio": [
+          0.893,
+          0.821
+        ]
+      },
+      "logo": {
+        "logo": "assets/brand/abyss_knockout.png",
+        "pos": "br",
+        "size_px": 145,
+        "square": true,
+        "ref": "short-side",
+        "monochrome": false,
+        "tint": "original",
+        "blend": "screen",
+        "bg_luma": 0.013,
+        "bg_noise": 0.0303,
+        "scrim": false,
+        "halo": true
+      }
+    },
+    {
+      "in": "incoming/feed/payaso.jpg",
+      "out": "entregas/feed/payaso_retouched.jpg",
+      "source_size": [
+        900,
+        1200
+      ],
+      "output_size": [
+        900,
+        1200
+      ],
+      "exposure_ev": 0.35,
+      "meter_in": {
+        "key_tone": 0.35378533601760864,
+        "mid_tone": 0.15352919697761536,
+        "subject_ratio": 0.7832953703703703,
+        "bg_level": 0.0595211386680603
+      },
+      "preset": "feed",
+      "analysis_in": {
+        "size": [
+          900,
+          1200
+        ],
+        "luma_p01": 0.04736235365271568,
+        "luma_p50": 0.13173334300518036,
+        "luma_p99": 0.6235553026199341,
+        "shadow_clip": 0.0,
+        "highlight_clip": 0.0,
+        "cast_rgb_median": [
+          0.1137,
+          0.1333,
+          0.1529
+        ],
+        "cast_ratio": [
+          0.853,
+          1.147
+        ]
+      },
+      "analysis_out": {
+        "size": [
+          900,
+          1200
+        ],
+        "luma_p01": 0.0,
+        "luma_p50": 0.07147372514009476,
+        "luma_p99": 0.8315845131874084,
+        "shadow_clip": 0.16824629629629628,
+        "highlight_clip": 6.944444444444444e-05,
+        "cast_rgb_median": [
+          0.0588,
+          0.0745,
+          0.0824
+        ],
+        "cast_ratio": [
+          0.789,
+          1.105
+        ]
+      },
+      "logo": {
+        "logo": "assets/brand/abyss_knockout.png",
+        "pos": "tr",
+        "size_px": 171,
+        "square": true,
+        "ref": "short-side",
+        "monochrome": false,
+        "tint": "original",
+        "blend": "screen",
+        "bg_luma": 0.017,
+        "bg_noise": 0.013,
+        "scrim": false,
+        "halo": true
+      }
+    },
+    {
+      "in": "incoming/feed/plate_p01_fachada_real.jpg",
+      "out": "entregas/feed/plate_p01_fachada_real_retouched.jpg",
+      "source_size": [
+        1296,
+        2304
+      ],
+      "output_size": [
+        1296,
+        2304
+      ],
+      "exposure_ev": 0.099,
+      "meter_in": {
+        "key_tone": 0.5829046964645386,
+        "mid_tone": 0.3070279061794281,
+        "subject_ratio": 0.7312276288151578,
+        "bg_level": 0.04533040151000023
+      },
+      "preset": "feed",
+      "analysis_in": {
+        "size": [
+          1296,
+          2304
+        ],
+        "luma_p01": 0.019376471638679504,
+        "luma_p50": 0.229971781373024,
+        "luma_p99": 0.8668243885040283,
+        "shadow_clip": 0.01057574320558985,
+        "highlight_clip": 0.0007615579989711934,
+        "cast_rgb_median": [
+          0.2,
+          0.2314,
+          0.2118
+        ],
+        "cast_ratio": [
+          0.864,
+          0.915
+        ]
+      },
+      "analysis_out": {
+        "size": [
+          1296,
+          2304
+        ],
+        "luma_p01": 0.0,
+        "luma_p50": 0.14270511269569397,
+        "luma_p99": 0.9347067475318909,
+        "shadow_clip": 0.2626594784164952,
+        "highlight_clip": 0.0009758927040466393,
+        "cast_rgb_median": [
+          0.1137,
+          0.1451,
+          0.1255
+        ],
+        "cast_ratio": [
+          0.784,
+          0.865
+        ]
+      },
+      "logo": {
+        "logo": "assets/brand/abyss_knockout.png",
+        "pos": "br",
+        "size_px": 246,
+        "square": true,
+        "ref": "short-side",
+        "monochrome": false,
+        "tint": "original",
+        "blend": "screen",
+        "bg_luma": 0.057,
+        "bg_noise": 0.0998,
+        "scrim": true,
+        "halo": true
+      }
+    },
+    {
+      "in": "incoming/feed/plate_p02_lobo_samurai.jpg",
+      "out": "entregas/feed/plate_p02_lobo_samurai_retouched.jpg",
+      "source_size": [
+        1296,
+        2304
+      ],
+      "output_size": [
+        1296,
+        2304
+      ],
+      "exposure_ev": 0.079,
+      "meter_in": {
+        "key_tone": 0.5976603031158447,
+        "mid_tone": 0.2614622414112091,
+        "subject_ratio": 0.7454289775162894,
+        "bg_level": 0.03742307052016258
+      },
+      "preset": "feed",
+      "analysis_in": {
+        "size": [
+          1296,
+          2304
+        ],
+        "luma_p01": 0.016571765765547752,
+        "luma_p50": 0.19519294798374176,
+        "luma_p99": 0.8451231718063354,
+        "shadow_clip": 0.014380184220679012,
+        "highlight_clip": 5.190918638545954e-05,
+        "cast_rgb_median": [
+          0.2078,
+          0.1922,
+          0.1725
+        ],
+        "cast_ratio": [
+          1.082,
+          0.898
+        ]
+      },
+      "analysis_out": {
+        "size": [
+          1296,
+          2304
+        ],
+        "luma_p01": 0.0,
+        "luma_p50": 0.10386431962251663,
+        "luma_p99": 0.9050329327583313,
+        "shadow_clip": 0.29506956500771603,
+        "highlight_clip": 9.04224537037037e-06,
+        "cast_rgb_median": [
+          0.1059,
+          0.102,
+          0.0902
+        ],
+        "cast_ratio": [
+          1.038,
+          0.885
+        ]
+      },
+      "logo": {
+        "logo": "assets/brand/abyss_knockout.png",
+        "pos": "br",
+        "size_px": 246,
+        "square": true,
+        "ref": "short-side",
+        "monochrome": false,
+        "tint": "original",
+        "blend": "screen",
+        "bg_luma": 0.06,
+        "bg_noise": 0.0838,
+        "scrim": true,
+        "halo": true
+      }
+    },
+    {
+      "in": "incoming/feed/plate_p04_cristo_manga.jpg",
+      "out": "entregas/feed/plate_p04_cristo_manga_retouched.jpg",
+      "source_size": [
+        1296,
+        2304
+      ],
+      "output_size": [
+        1296,
+        2304
+      ],
+      "exposure_ev": -0.093,
+      "meter_in": {
+        "key_tone": 0.7420387268066406,
+        "mid_tone": 0.32207977771759033,
+        "subject_ratio": 0.7260316867069616,
+        "bg_level": 0.012462202459573746
+      },
+      "preset": "feed",
+      "analysis_in": {
+        "size": [
+          1296,
+          2304
+        ],
+        "luma_p01": 0.007575687021017075,
+        "luma_p50": 0.24840471148490906,
+        "luma_p99": 0.9087318181991577,
+        "shadow_clip": 0.06997693222736626,
+        "highlight_clip": 0.0007940431027091907,
+        "cast_rgb_median": [
+          0.1765,
+          0.2588,
+          0.2745
+        ],
+        "cast_ratio": [
+          0.682,
+          1.061
+        ]
+      },
+      "analysis_out": {
+        "size": [
+          1296,
+          2304
+        ],
+        "luma_p01": 0.0,
+        "luma_p50": 0.18337489664554596,
+        "luma_p99": 0.9337725639343262,
+        "shadow_clip": 0.2107278538665981,
+        "highlight_clip": 0.0007883498371056241,
+        "cast_rgb_median": [
+          0.1255,
+          0.1922,
+          0.1961
+        ],
+        "cast_ratio": [
+          0.653,
+          1.02
+        ]
+      },
+      "logo": {
+        "logo": "assets/brand/abyss_knockout.png",
+        "pos": "tr",
+        "size_px": 246,
+        "square": true,
+        "ref": "short-side",
+        "monochrome": false,
+        "tint": "original",
+        "blend": "screen",
+        "bg_luma": 0.028,
+        "bg_noise": 0.0181,
+        "scrim": false,
+        "halo": true
+      }
+    },
+    {
+      "in": "incoming/feed/plate_p05_color_anime.jpg",
+      "out": "entregas/feed/plate_p05_color_anime_retouched.jpg",
+      "source_size": [
+        1296,
+        2304
+      ],
+      "output_size": [
+        1296,
+        2304
+      ],
+      "exposure_ev": 0.222,
+      "meter_in": {
+        "key_tone": 0.4988097846508026,
+        "mid_tone": 0.19168828427791595,
+        "subject_ratio": 0.7104391718106996,
+        "bg_level": 0.025870932266116142
+      },
+      "preset": "feed",
+      "analysis_in": {
+        "size": [
+          1296,
+          2304
+        ],
+        "luma_p01": 0.01713803969323635,
+        "luma_p50": 0.14059452712535858,
+        "luma_p99": 0.7222588658332825,
+        "shadow_clip": 0.018453548311042525,
+        "highlight_clip": 4.688571673525377e-05,
+        "cast_rgb_median": [
+          0.149,
+          0.1373,
+          0.1255
+        ],
+        "cast_ratio": [
+          1.086,
+          0.914
+        ]
+      },
+      "analysis_out": {
+        "size": [
+          1296,
+          2304
+        ],
+        "luma_p01": 0.0,
+        "luma_p50": 0.06436078250408173,
+        "luma_p99": 0.8978323936462402,
+        "shadow_clip": 0.3355175379372428,
+        "highlight_clip": 0.00018151470336076817,
+        "cast_rgb_median": [
+          0.0627,
+          0.0627,
+          0.0588
+        ],
+        "cast_ratio": [
+          1.0,
+          0.937
+        ]
+      },
+      "logo": {
+        "logo": "assets/brand/abyss_knockout.png",
+        "pos": "br",
+        "size_px": 246,
+        "square": true,
+        "ref": "short-side",
+        "monochrome": false,
+        "tint": "original",
+        "blend": "screen",
+        "bg_luma": 0.045,
+        "bg_noise": 0.0346,
+        "scrim": false,
+        "halo": true
+      }
+    },
+    {
+      "in": "incoming/feed/plate_p08_vitrina_estudio.jpg",
+      "out": "entregas/feed/plate_p08_vitrina_estudio_retouched.jpg",
+      "source_size": [
+        1296,
+        2304
+      ],
+      "output_size": [
+        1296,
+        2304
+      ],
+      "exposure_ev": 0.065,
+      "meter_in": {
+        "key_tone": 0.6080343723297119,
+        "mid_tone": 0.36130350828170776,
+        "subject_ratio": 0.6952636048954046,
+        "bg_level": 0.030489154160022736
+      },
+      "preset": "feed",
+      "analysis_in": {
+        "size": [
+          1296,
+          2304
+        ],
+        "luma_p01": 0.019093332812190056,
+        "luma_p50": 0.26394355297088623,
+        "luma_p99": 0.7913796305656433,
+        "shadow_clip": 0.01116114486882716,
+        "highlight_clip": 8.707347393689987e-05,
+        "cast_rgb_median": [
+          0.2118,
+          0.2784,
+          0.2667
+        ],
+        "cast_ratio": [
+          0.761,
+          0.958
+        ]
+      },
+      "analysis_out": {
+        "size": [
+          1296,
+          2304
+        ],
+        "luma_p01": 0.0,
+        "luma_p50": 0.16596706211566925,
+        "luma_p99": 0.9041945338249207,
+        "shadow_clip": 0.2733554499957133,
+        "highlight_clip": 0.0004564659422153635,
+        "cast_rgb_median": [
+          0.1373,
+          0.1725,
+          0.1686
+        ],
+        "cast_ratio": [
+          0.795,
+          0.977
+        ]
+      },
+      "logo": {
+        "logo": "assets/brand/abyss_knockout.png",
+        "pos": "tl",
+        "size_px": 246,
+        "square": true,
+        "ref": "short-side",
+        "monochrome": false,
+        "tint": "original",
+        "blend": "screen",
+        "bg_luma": 0.099,
+        "bg_noise": 0.1718,
+        "scrim": true,
+        "halo": true
+      }
+    },
+    {
+      "in": "incoming/feed/proceso_detalle_poster.jpg",
+      "out": "entregas/feed/proceso_detalle_poster_retouched.jpg",
+      "source_size": [
+        540,
+        960
+      ],
+      "output_size": [
+        540,
+        960
+      ],
+      "exposure_ev": -0.194,
+      "meter_in": {
+        "key_tone": 0.8428072929382324,
+        "mid_tone": 0.6558843851089478,
+        "subject_ratio": 0.7672530864197531,
+        "bg_level": 0.09968969970941544
+      },
+      "preset": "feed",
+      "analysis_in": {
+        "size": [
+          540,
+          960
+        ],
+        "luma_p01": 0.019304314628243446,
+        "luma_p50": 0.5802839398384094,
+        "luma_p99": 0.9456643462181091,
+        "shadow_clip": 0.010181327160493827,
+        "highlight_clip": 0.00022762345679012345,
+        "cast_rgb_median": [
+          0.6,
+          0.5765,
+          0.5137
+        ],
+        "cast_ratio": [
+          1.041,
+          0.891
+        ]
+      },
+      "analysis_out": {
+        "size": [
+          540,
+          960
+        ],
+        "luma_p01": 0.0,
+        "luma_p50": 0.6368259191513062,
+        "luma_p99": 0.9292490482330322,
+        "shadow_clip": 0.04565779320987654,
+        "highlight_clip": 0.0002642746913580247,
+        "cast_rgb_median": [
+          0.6627,
+          0.6275,
+          0.5608
+        ],
+        "cast_ratio": [
+          1.056,
+          0.894
+        ]
+      },
+      "logo": {
+        "logo": "assets/brand/abyss_ink.png",
+        "pos": "tl",
+        "size_px": 102,
+        "square": true,
+        "ref": "short-side",
+        "monochrome": true,
+        "tint": "ink",
+        "blend": "normal",
+        "bg_luma": 0.823,
+        "bg_noise": 0.0167,
+        "scrim": false,
+        "halo": false
+      }
+    },
+    {
+      "in": "incoming/feed/proceso_filmacion_poster.jpg",
+      "out": "entregas/feed/proceso_filmacion_poster_retouched.jpg",
+      "source_size": [
+        540,
+        960
+      ],
+      "output_size": [
+        540,
+        960
+      ],
+      "exposure_ev": -0.042,
+      "meter_in": {
+        "key_tone": 0.6958786249160767,
+        "mid_tone": 0.48754188418388367,
+        "subject_ratio": 0.6816570216049382,
+        "bg_level": 0.10984067618846893
+      },
+      "preset": "feed",
+      "analysis_in": {
+        "size": [
+          540,
+          960
+        ],
+        "luma_p01": 0.08468392491340637,
+        "luma_p50": 0.34552472829818726,
+        "luma_p99": 0.8448529243469238,
+        "shadow_clip": 7.523148148148149e-05,
+        "highlight_clip": 0.0007002314814814815,
+        "cast_rgb_median": [
+          0.3686,
+          0.3412,
+          0.3255
+        ],
+        "cast_ratio": [
+          1.08,
+          0.954
+        ]
+      },
+      "analysis_out": {
+        "size": [
+          540,
+          960
+        ],
+        "luma_p01": 0.0,
+        "luma_p50": 0.2953670620918274,
+        "luma_p99": 0.8893623948097229,
+        "shadow_clip": 0.04271797839506173,
+        "highlight_clip": 2.3148148148148147e-05,
+        "cast_rgb_median": [
+          0.3098,
+          0.2902,
+          0.2784
+        ],
+        "cast_ratio": [
+          1.068,
+          0.959
+        ]
+      },
+      "logo": {
+        "logo": "assets/brand/abyss_knockout.png",
+        "pos": "br",
+        "size_px": 102,
+        "square": true,
+        "ref": "short-side",
+        "monochrome": false,
+        "tint": "original",
+        "blend": "screen",
+        "bg_luma": 0.089,
+        "bg_noise": 0.0384,
+        "scrim": false,
+        "halo": true
+      }
+    },
+    {
+      "in": "incoming/feed/proceso_hombro.jpg",
+      "out": "entregas/feed/proceso_hombro_retouched.jpg",
+      "source_size": [
+        900,
+        1200
+      ],
+      "output_size": [
+        900,
+        1200
+      ],
+      "exposure_ev": 0.06,
+      "meter_in": {
+        "key_tone": 0.6119069457054138,
+        "mid_tone": 0.25894230604171753,
+        "subject_ratio": 0.7498333333333334,
+        "bg_level": 0.08952581137418747
+      },
+      "preset": "feed",
+      "analysis_in": {
+        "size": [
+          900,
+          1200
+        ],
+        "luma_p01": 0.08159137517213821,
+        "luma_p50": 0.18525569140911102,
+        "luma_p99": 0.743966281414032,
+        "shadow_clip": 9.259259259259259e-07,
+        "highlight_clip": 1.759259259259259e-05,
+        "cast_rgb_median": [
+          0.1255,
+          0.2,
+          0.2039
+        ],
+        "cast_ratio": [
+          0.627,
+          1.02
+        ]
+      },
+      "analysis_out": {
+        "size": [
+          900,
+          1200
+        ],
+        "luma_p01": 0.0,
+        "luma_p50": 0.0942102000117302,
+        "luma_p99": 0.8798573017120361,
+        "shadow_clip": 0.1684138888888889,
+        "highlight_clip": 0.00025833333333333334,
+        "cast_rgb_median": [
+          0.0588,
+          0.102,
+          0.1059
+        ],
+        "cast_ratio": [
+          0.577,
+          1.038
+        ]
+      },
+      "logo": {
+        "logo": "assets/brand/abyss_knockout.png",
+        "pos": "tl",
+        "size_px": 171,
+        "square": true,
+        "ref": "short-side",
+        "monochrome": false,
+        "tint": "original",
+        "blend": "screen",
+        "bg_luma": 0.029,
+        "bg_noise": 0.0132,
+        "scrim": false,
+        "halo": true
+      }
+    },
+    {
+      "in": "incoming/feed/proceso_pierna_poster.jpg",
+      "out": "entregas/feed/proceso_pierna_poster_retouched.jpg",
+      "source_size": [
+        540,
+        960
+      ],
+      "output_size": [
+        540,
+        960
+      ],
+      "exposure_ev": -0.187,
+      "meter_in": {
+        "key_tone": 0.8357607126235962,
+        "mid_tone": 0.5288857817649841,
+        "subject_ratio": 0.7157445987654321,
+        "bg_level": 0.07321181893348694
+      },
+      "preset": "feed",
+      "analysis_in": {
+        "size": [
+          540,
+          960
+        ],
+        "luma_p01": 0.023828236386179924,
+        "luma_p50": 0.39565959572792053,
+        "luma_p99": 1.0,
+        "shadow_clip": 0.007816358024691357,
+        "highlight_clip": 0.043173225308641976,
+        "cast_rgb_median": [
+          0.451,
+          0.3843,
+          0.3255
+        ],
+        "cast_ratio": [
+          1.173,
+          0.847
+        ]
+      },
+      "analysis_out": {
+        "size": [
+          540,
+          960
+        ],
+        "luma_p01": 0.0,
+        "luma_p50": 0.3938192129135132,
+        "luma_p99": 0.9296525120735168,
+        "shadow_clip": 0.08094907407407408,
+        "highlight_clip": 0.00015817901234567902,
+        "cast_rgb_median": [
+          0.4431,
+          0.3843,
+          0.3216
+        ],
+        "cast_ratio": [
+          1.153,
+          0.837
+        ]
+      },
+      "logo": {
+        "logo": "assets/brand/abyss_knockout.png",
+        "pos": "bl",
+        "size_px": 102,
+        "square": true,
+        "ref": "short-side",
+        "monochrome": false,
+        "tint": "original",
+        "blend": "screen",
+        "bg_luma": 0.083,
+        "bg_noise": 0.1303,
+        "scrim": true,
+        "halo": true
+      }
+    },
+    {
+      "in": "incoming/feed/trabajo_cristo_manga.jpg",
+      "out": "entregas/feed/trabajo_cristo_manga_retouched.jpg",
+      "source_size": [
+        900,
+        1200
+      ],
+      "output_size": [
+        900,
+        1200
+      ],
+      "exposure_ev": -0.032,
+      "meter_in": {
+        "key_tone": 0.687455952167511,
+        "mid_tone": 0.27917417883872986,
+        "subject_ratio": 0.737225925925926,
+        "bg_level": 0.03716890141367912
+      },
+      "preset": "feed",
+      "analysis_in": {
+        "size": [
+          900,
+          1200
+        ],
+        "luma_p01": 0.0117647061124444,
+        "luma_p50": 0.23227764666080475,
+        "luma_p99": 0.8278800249099731,
+        "shadow_clip": 0.023075925925925927,
+        "highlight_clip": 5e-05,
+        "cast_rgb_median": [
+          0.1765,
+          0.2431,
+          0.2314
+        ],
+        "cast_ratio": [
+          0.726,
+          0.952
+        ]
+      },
+      "analysis_out": {
+        "size": [
+          900,
+          1200
+        ],
+        "luma_p01": 0.0,
+        "luma_p50": 0.14717961847782135,
+        "luma_p99": 0.9103850722312927,
+        "shadow_clip": 0.19417962962962962,
+        "highlight_clip": 0.0007657407407407408,
+        "cast_rgb_median": [
+          0.1059,
+          0.1529,
+          0.1373
+        ],
+        "cast_ratio": [
+          0.692,
+          0.897
+        ]
+      },
+      "logo": {
+        "logo": "assets/brand/abyss_knockout.png",
+        "pos": "tr",
+        "size_px": 171,
+        "square": true,
+        "ref": "short-side",
+        "monochrome": false,
+        "tint": "original",
+        "blend": "screen",
+        "bg_luma": 0.024,
+        "bg_noise": 0.0119,
+        "scrim": false,
+        "halo": true
+      }
+    },
+    {
+      "in": "incoming/feed/trabajo_hombro_real.jpg",
+      "out": "entregas/feed/trabajo_hombro_real_retouched.jpg",
+      "source_size": [
+        900,
+        1200
+      ],
+      "output_size": [
+        900,
+        1200
+      ],
+      "exposure_ev": 0.073,
+      "meter_in": {
+        "key_tone": 0.6019210815429688,
+        "mid_tone": 0.34475916624069214,
+        "subject_ratio": 0.6990601851851852,
+        "bg_level": 0.027791451662778854
+      },
+      "preset": "feed",
+      "analysis_in": {
+        "size": [
+          900,
+          1200
+        ],
+        "luma_p01": 0.02441960945725441,
+        "luma_p50": 0.2462203949689865,
+        "luma_p99": 0.8235297203063965,
+        "shadow_clip": 0.0016027777777777778,
+        "highlight_clip": 3.425925925925926e-05,
+        "cast_rgb_median": [
+          0.2706,
+          0.2392,
+          0.2353
+        ],
+        "cast_ratio": [
+          1.131,
+          0.984
+        ]
+      },
+      "analysis_out": {
+        "size": [
+          900,
+          1200
+        ],
+        "luma_p01": 0.0,
+        "luma_p50": 0.15624001622200012,
+        "luma_p99": 0.9647059440612793,
+        "shadow_clip": 0.2990962962962963,
+        "highlight_clip": 0.006068518518518518,
+        "cast_rgb_median": [
+          0.1686,
+          0.1529,
+          0.149
+        ],
+        "cast_ratio": [
+          1.103,
+          0.974
+        ]
+      },
+      "logo": {
+        "logo": "assets/brand/abyss_knockout.png",
+        "pos": "br",
+        "size_px": 171,
+        "square": true,
+        "ref": "short-side",
+        "monochrome": false,
+        "tint": "original",
+        "blend": "screen",
+        "bg_luma": 0.019,
+        "bg_noise": 0.033,
+        "scrim": false,
+        "halo": true
+      }
+    },
+    {
+      "in": "incoming/feed/trabajo_lobo_luna.jpg",
+      "out": "entregas/feed/trabajo_lobo_luna_retouched.jpg",
+      "source_size": [
+        900,
+        1200
+      ],
+      "output_size": [
+        900,
+        1200
+      ],
+      "exposure_ev": 0.35,
+      "meter_in": {
+        "key_tone": 0.4230526089668274,
+        "mid_tone": 0.27545374631881714,
+        "subject_ratio": 0.7227055555555556,
+        "bg_level": 0.027545372024178505
+      },
+      "preset": "feed",
+      "analysis_in": {
+        "size": [
+          900,
+          1200
+        ],
+        "luma_p01": 0.019607843831181526,
+        "luma_p50": 0.22479136288166046,
+        "luma_p99": 0.6193819642066956,
+        "shadow_clip": 0.014192592592592593,
+        "highlight_clip": 0.0,
+        "cast_rgb_median": [
+          0.2431,
+          0.2157,
+          0.2235
+        ],
+        "cast_ratio": [
+          1.127,
+          1.036
+        ]
+      },
+      "analysis_out": {
+        "size": [
+          900,
+          1200
+        ],
+        "luma_p01": 0.0,
+        "luma_p50": 0.18596354126930237,
+        "luma_p99": 0.7961186766624451,
+        "shadow_clip": 0.22684722222222223,
+        "highlight_clip": 1.0185185185185185e-05,
+        "cast_rgb_median": [
+          0.2,
+          0.1804,
+          0.1843
+        ],
+        "cast_ratio": [
+          1.109,
+          1.022
+        ]
+      },
+      "logo": {
+        "logo": "assets/brand/abyss_knockout.png",
+        "pos": "tr",
+        "size_px": 171,
+        "square": true,
+        "ref": "short-side",
+        "monochrome": false,
+        "tint": "original",
+        "blend": "screen",
+        "bg_luma": 0.001,
+        "bg_noise": 0.0015,
+        "scrim": false,
+        "halo": true
+      }
+    },
+    {
+      "in": "incoming/feed/trabajo_lobo_rugido.jpg",
+      "out": "entregas/feed/trabajo_lobo_rugido_retouched.jpg",
+      "source_size": [
+        900,
+        1200
+      ],
+      "output_size": [
+        900,
+        1200
+      ],
+      "exposure_ev": 0.201,
+      "meter_in": {
+        "key_tone": 0.5120258927345276,
+        "mid_tone": 0.16471372544765472,
+        "subject_ratio": 0.774037962962963,
+        "bg_level": 0.055098921060562134
+      },
+      "preset": "feed",
+      "analysis_in": {
+        "size": [
+          900,
+          1200
+        ],
+        "luma_p01": 0.0313725508749485,
+        "luma_p50": 0.12186744809150696,
+        "luma_p99": 0.725602388381958,
+        "shadow_clip": 0.005084259259259259,
+        "highlight_clip": 0.0,
+        "cast_rgb_median": [
+          0.1216,
+          0.1216,
+          0.1216
+        ],
+        "cast_ratio": [
+          1.0,
+          1.0
+        ]
+      },
+      "analysis_out": {
+        "size": [
+          900,
+          1200
+        ],
+        "luma_p01": 0.0,
+        "luma_p50": 0.04760941118001938,
+        "luma_p99": 0.910637617111206,
+        "shadow_clip": 0.259512037037037,
+        "highlight_clip": 0.0002712962962962963,
+        "cast_rgb_median": [
+          0.0471,
+          0.0471,
+          0.0471
+        ],
+        "cast_ratio": [
+          1.0,
+          1.0
+        ]
+      },
+      "logo": {
+        "logo": "assets/brand/abyss_knockout.png",
+        "pos": "br",
+        "size_px": 171,
+        "square": true,
+        "ref": "short-side",
+        "monochrome": false,
+        "tint": "original",
+        "blend": "screen",
+        "bg_luma": 0.037,
+        "bg_noise": 0.0327,
+        "scrim": false,
+        "halo": true
+      }
+    },
+    {
+      "in": "incoming/feed/vitrina.jpg",
+      "out": "entregas/feed/vitrina_retouched.jpg",
+      "source_size": [
+        900,
+        1200
+      ],
+      "output_size": [
+        900,
+        1200
+      ],
+      "exposure_ev": 0.171,
+      "meter_in": {
+        "key_tone": 0.5323486328125,
+        "mid_tone": 0.32563990354537964,
+        "subject_ratio": 0.69175,
+        "bg_level": 0.052880387753248215
+      },
+      "preset": "feed",
+      "analysis_in": {
+        "size": [
+          900,
+          1200
+        ],
+        "luma_p01": 0.04123843088746071,
+        "luma_p50": 0.2400023490190506,
+        "luma_p99": 0.7101074457168579,
+        "shadow_clip": 0.00043425925925925923,
+        "highlight_clip": 2.777777777777778e-06,
+        "cast_rgb_median": [
+          0.1961,
+          0.2549,
+          0.2431
+        ],
+        "cast_ratio": [
+          0.769,
+          0.954
+        ]
+      },
+      "analysis_out": {
+        "size": [
+          900,
+          1200
+        ],
+        "luma_p01": 0.0,
+        "luma_p50": 0.1596517711877823,
+        "luma_p99": 0.8663209080696106,
+        "shadow_clip": 0.22498518518518518,
+        "highlight_clip": 0.000524074074074074,
+        "cast_rgb_median": [
+          0.1373,
+          0.1686,
+          0.1608
+        ],
+        "cast_ratio": [
+          0.814,
+          0.953
+        ]
+      },
+      "logo": {
+        "logo": "assets/brand/abyss_knockout.png",
+        "pos": "tl",
+        "size_px": 171,
+        "square": true,
+        "ref": "short-side",
+        "monochrome": false,
+        "tint": "original",
+        "blend": "screen",
+        "bg_luma": 0.055,
+        "bg_noise": 0.0845,
+        "scrim": true,
+        "halo": true
+      }
+    }
+  ]
+}

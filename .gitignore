@@ -1,6 +1,7 @@
 # fotos de entrada y entregas (pesadas, no versionar)
 incoming/
 out/
+!entregas
 
 # artefactos de python
 __pycache__/
@@ -9,3 +10,6 @@ __pycache__/
 
 # sistema
 .DS_Store
+
+# adjuntos bajados por el conector de Gmail (no versionar)
+gmail/
