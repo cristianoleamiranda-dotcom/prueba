@@ -1,0 +1,11 @@
+# fotos de entrada y entregas (pesadas, no versionar)
+incoming/
+out/
+
+# artefactos de python
+__pycache__/
+*.pyc
+.venv/
+
+# sistema
+.DS_Store
