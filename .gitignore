@@ -13,3 +13,6 @@ __pycache__/
 
 # adjuntos bajados por el conector de Gmail (no versionar)
 gmail/
+
+# frames intermedios del comercial (se regeneran con make comercial)
+entregas/_video_src/
