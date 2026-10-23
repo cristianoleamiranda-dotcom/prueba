@@ -3,7 +3,7 @@ BRAND := assets/brand/abyss_knockout.png
 SRC   ?= incoming
 OUT   ?= out
 
-.PHONY: help install brand demo fetch feed story all resumen clean
+.PHONY: help install brand demo fetch feed story paquete all resumen clean
 
 help:
 	@echo "make install  - dependencias de python"
@@ -12,6 +12,7 @@ help:
 	@echo "make feed     - lote 4:5 (1080x1350) con insignia  [preset editorial]"
 	@echo "make story    - lote 9:16 (1080x1920) con insignia [preset motion]"
 	@echo "make demo     - reprocesa las bases de ejemplo"
+	@echo "make paquete  - feed+story+resumen desde SRC=<carpeta> (sin descargar nada)"
 	@echo "make all      - fetch + feed + story + resumen (entrega completa)"
 	@echo "make resumen  - tabla de la ultima entrega (EV, esquina, tamano de insignia)"
 	@echo "make clean    - borra out/"
@@ -43,7 +44,10 @@ demo:
 	$(PY) scripts/retouch.py examples/_demo_src --out examples/demo_motion --preset motion \
 		--crop 1080x1920 --logo $(BRAND) --logo-pos auto --logo-width 0.17
 
-# entrega completa en un comando
+# entrega de una carpeta ya disponible (fotos subidas al chat, o cualquier ruta)
+paquete: feed story resumen
+
+# entrega completa en un comando (descarga + procesa)
 all: fetch feed story resumen
 
 resumen:
